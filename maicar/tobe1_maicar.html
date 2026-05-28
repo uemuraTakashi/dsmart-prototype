@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイカー精算 - TOBE1</title>
+<link rel="stylesheet" href="../_dsmart-design-system/dsmart-base.css">
+<style>
+/* ===== TOBE1: 視認性改善 ===== */
+
+/* タブスタイル（ASIS共通） */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  padding: 6px 0 0 0;
+  align-items: flex-end;
+}
+.tab-btn {
+  padding: 4px 18px;
+  font-size: 12px;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+  background: #33AACC;
+  color: #fff;
+  border: 1px solid #003399;
+  border-bottom: 2px solid #003399;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 4px;
+}
+.tab-btn.active {
+  background: #003399;
+  color: #fff;
+}
+.tab-separator {
+  border: none;
+  border-top: 2px solid #003399;
+  margin: 0 0 6px 0;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* [改善1] 行ペアの区切り強調（出張精算TOBE1と同パターン） */
+table:has(.row-a) thead { border-bottom: 2px solid #000; }
+tr.row-b > td { border-bottom: 2px solid #000 !important; }
+tr.row-a > td[rowspan="2"] { border-bottom: 2px solid #000 !important; }
+tr.row-a > td:not([rowspan="2"]) { border-bottom: 1px dashed #aaa; }
+
+/* [改善2] 走行距離列（自動計算）を薄青背景で明示 */
+td.auto-calc {
+  background: #E8F0FF !important;
+  text-align: right;
+}
+
+/* [改善3] 状態バッジの色分け */
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 4px;
+  font-weight: bold;
+}
+.status-mishinsei {
+  background: #C8C8C8;
+  color: #444;
+}
+.status-nyuryoku {
+  background: #FFFF99;
+  color: #333;
+}
+.status-shinseizumi {
+  background: #99CC66;
+  color: #fff;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== サイドバー ========== -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">担当　太郎</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>環境エネルギー</a>
+    <a href="#"><span class="icon">📁</span>建築系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>マンション系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>ネクストライフ</a>
+    <a href="#"><span class="icon">📁</span>広告制作関連</a>
+    <a href="#"><span class="icon">📁</span>建築系アフター</a>
+    <a href="#"><span class="icon">📁</span>住宅・集合系アフター</a>
+    <a href="#"><span class="icon">📁</span>マンション系アフター</a>
+    <a href="#"><span class="icon">📁</span>緊急対応物件管理</a>
+    <a href="#"><span class="icon">📁</span>都市開発</a>
+    <a href="#"><span class="icon">📁</span>本社受付管理</a>
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>依頼書・伺書・報告書</a>
+    <a href="#"><span class="icon">📁</span>販促伺い・広告チェック</a>
+    <a href="#"><span class="icon">📁</span>株式等売買届出書</a>
+    <a href="#"><span class="icon">📁</span>紹介販売</a>
+    <a href="#"><span class="icon">📁</span>勤怠管理</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+    <a href="#"><span class="icon">📁</span>請求書</a>
+    <a href="#"><span class="icon">📁</span>経費「見える化」</a>
+    <a href="#"><span class="icon">📁</span>リスク管理</a>
+    <a href="#"><span class="icon">📁</span>報告依頼(試行中)</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>メッセージ</a>
+  </div>
+</div>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="main">
+
+  <!-- 画面ヘッダー -->
+  <div class="screen-id-bar">[ GPOR21110 ]</div>
+  <div class="screen-header">
+    <span class="section-mark">§</span> マイカー精算
+  </div>
+
+  <div class="content-wrap">
+  <div class="form-box">
+
+    <!-- 日付表示 -->
+    <div style="text-align:right; font-size:12px; padding:2px 0 4px 0;">2023/10/5 時点</div>
+
+    <!-- ① 個人情報テーブル -->
+    <table class="form-table" style="margin-bottom:6px;">
+      <colgroup>
+        <col style="width:72px;">
+        <col style="width:100px;">
+        <col style="width:100px;">
+        <col style="width:88px;">
+        <col style="width:76px;">
+        <col style="width:72px;">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th rowspan="2">個人</th>
+          <th colspan="2">燃費(km/ℓ)</th>
+          <th rowspan="2">カタログ燃費比<br>（%）</th>
+          <th rowspan="2">走行距離<br>（km）</th>
+          <th rowspan="2">給油量(ℓ)</th>
+          <th rowspan="2">燃料区分</th>
+        </tr>
+        <tr>
+          <th>カタログ燃費</th>
+          <th>実燃費</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center;">担当 太郎</td>
+          <td style="text-align:center;">－</td>
+          <td style="text-align:center;">－</td>
+          <td style="text-align:center;">－</td>
+          <td style="text-align:center;">－</td>
+          <td style="text-align:center;">－</td>
+          <td style="text-align:center;">－</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ② タブバー -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('tab-gas', this)">ガソリン代精算</button>
+      <button class="tab-btn" onclick="switchTab('tab-toll', this)">高速・駐車場代精算</button>
+    </div>
+    <hr class="tab-separator">
+
+    <!-- ========== Tab1: ガソリン代精算 ========== -->
+    <div id="tab-gas" class="tab-panel active">
+
+      <table class="form-table" style="font-size:11px;">
+        <colgroup>
+          <col style="width:76px;">
+          <col style="width:22px;">
+          <col style="width:52px;">
+          <col style="width:52px;">
+          <col style="width:50px;"><!-- 走行距離（自動） -->
+          <col style="width:50px;">
+          <col style="width:46px;">
+          <col style="width:52px;">
+          <col style="width:80px;">
+          <col style="width:44px;">
+          <col style="width:52px;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">年月日</th>
+            <th rowspan="2">曜</th>
+            <th>走行前km</th>
+            <th>走行後km</th>
+            <th rowspan="2" style="background:#D0E4FF;">走行距離<br><span style="font-size:10px; font-weight:normal;">(自動)</span></th>
+            <th rowspan="2">私用走行</th>
+            <th rowspan="2">給油量<br>(ℓ)</th>
+            <th>高速代</th>
+            <th>領収書<br>(高速)</th>
+            <th rowspan="2">金額</th>
+            <th rowspan="2">状態</th>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align:left; padding-left:4px; font-weight:normal; background:#e0e0e0;">メモ</th>
+            <th>駐車代</th>
+            <th>領収書<br>(駐車)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 2023/10/07 土 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/07</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">土</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td class="auto-calc">0</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-mishinsei">未申請</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/08 日 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/08</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">日</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td class="auto-calc">0</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-mishinsei">未申請</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/09 月 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/09</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">月</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="300"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="400"></td>
+            <td class="auto-calc">100</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-nyuryoku">入力中</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/10 火 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/10</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">火</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="400"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="500"></td>
+            <td class="auto-calc">100</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-nyuryoku">入力中</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/11 水 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/11</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">水</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="500"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="600"></td>
+            <td class="auto-calc">100</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-nyuryoku">入力中</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/12 木 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/12</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">木</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="600"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="700"></td>
+            <td class="auto-calc">100</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-nyuryoku">入力中</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 2023/10/13 金 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/13</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">金</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="700"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td class="auto-calc">-700</td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;">0</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">
+              <span class="status-badge status-mishinsei">未申請</span>
+            </td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="5" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+            <td style="text-align:right;"><input type="text" style="width:38px; text-align:right;" value="0"></td>
+            <td></td>
+          </tr>
+
+          <!-- 小計/合計 -->
+          <tr>
+            <td colspan="4" class="lbl" style="text-align:center; font-weight:bold;">小計／合計</td>
+            <td class="auto-calc">-300</td>
+            <td style="text-align:right;">0</td>
+            <td style="text-align:right;">0.00</td>
+            <td style="text-align:right;">0</td>
+            <td></td>
+            <td style="text-align:right;">0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="8" style="background:#fff; border:none;"></td>
+            <td></td>
+            <td style="text-align:right;">0</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div><!-- /tab-gas -->
+
+    <!-- ========== Tab2: 高速・駐車場代精算 ========== -->
+    <div id="tab-toll" class="tab-panel">
+
+      <div style="text-align:right; font-size:11px; padding:2px 0 3px 0; font-weight:bold;">[ 7件 ]</div>
+
+      <table class="form-table" style="font-size:11px;">
+        <colgroup>
+          <col style="width:76px;">
+          <col style="width:22px;">
+          <col style="width:50px;">
+          <col style="width:68px;">
+          <col style="width:28px;">
+          <col style="width:76px;">
+          <col style="width:76px;">
+          <col style="width:50px;">
+          <col style="width:68px;">
+          <col style="width:28px;">
+          <col style="width:76px;">
+          <col style="width:76px;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="3">年月日</th>
+            <th rowspan="3">曜</th>
+            <th colspan="5" style="background:#4477CC; color:#fff;">高速代</th>
+            <th colspan="5" style="background:#4477CC; color:#fff;">駐車場代</th>
+          </tr>
+          <tr>
+            <th rowspan="2">金額</th>
+            <th colspan="4" style="background:#5588DD; color:#fff;">領収書</th>
+            <th rowspan="2">金額</th>
+            <th colspan="4" style="background:#5588DD; color:#fff;">領収書</th>
+          </tr>
+          <tr>
+            <th>支払先</th>
+            <th>枚数</th>
+            <th>登録番号</th>
+            <th>原本<br>(取込・提出)</th>
+            <th>支払先</th>
+            <th>枚数</th>
+            <th>登録番号</th>
+            <th>原本<br>(取込・提出)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023/10/07</td>
+            <td style="text-align:center;">土</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2023/10/08</td>
+            <td style="text-align:center;">日</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2023/10/09</td>
+            <td style="text-align:center;">月</td>
+            <td style="text-align:right;">1,200</td>
+            <td></td>
+            <td style="text-align:center;">1</td>
+            <td style="font-size:10px;">登録番号：記載有<br>書頌（台紙取込）</td>
+            <td style="font-size:10px;"></td>
+            <td style="text-align:right;">900</td>
+            <td></td>
+            <td style="text-align:center;">1</td>
+            <td style="font-size:10px;">登録番号：記載有<br>書頌（台紙取込）</td>
+            <td style="font-size:10px;"></td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="vertical-align:top; padding-top:3px;">2023/10/10</td>
+            <td rowspan="2" style="text-align:center; vertical-align:top; padding-top:3px;">火</td>
+            <td style="text-align:right; vertical-align:top; padding-top:3px;">0</td>
+            <td colspan="4" style="font-size:10px; color:#CC0000; vertical-align:top; padding:2px;">
+              ※領収書不要の場合、下記プルダウンより<br>理由を選択してください<br>
+              <input type="text" style="width:24px; text-align:right;" value="0">
+              <select style="width:130px; font-size:10px; margin-top:2px;">
+                <option></option>
+                <option>領収書なし（紛失）</option>
+                <option>領収書なし（その他）</option>
+              </select>
+            </td>
+            <td rowspan="2" style="text-align:right; vertical-align:top; padding-top:3px;">
+              <input type="text" style="width:40px; text-align:right;" value="1,000">
+            </td>
+            <td style="vertical-align:top; padding:2px;">
+              <input type="text" style="width:56px;" value="○○パーキング">
+            </td>
+            <td style="vertical-align:top; padding:2px;">
+              <select style="width:26px; font-size:10px;">
+                <option>1</option><option>2</option><option>3</option>
+              </select>
+            </td>
+            <td style="vertical-align:top; padding:2px; font-size:10px;">
+              登録番号：<input type="radio" name="reg10" checked>記載有
+              <input type="radio" name="reg10">記載無
+            </td>
+            <td style="vertical-align:top; padding:2px;">
+              <select style="width:72px; font-size:10px;">
+                <option>書頌（台紙取込）</option>
+                <option>書頌（台紙提出）</option>
+              </select><br>
+              <button class="btn" style="font-size:10px; margin-top:2px;" disabled>ファイル選択</button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="padding:2px;"></td>
+            <td colspan="4" style="text-align:right; padding:2px; vertical-align:middle;">
+              <button class="btn" style="font-size:10px;">挿入</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2023/10/11</td>
+            <td style="text-align:center;">水</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2023/10/12</td>
+            <td style="text-align:center;">木</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td>2023/10/13</td>
+            <td style="text-align:center;">金</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div><!-- /tab-toll -->
+
+    <!-- ③ 登録ボタン -->
+    <div class="submit-bar" style="justify-content:center; margin-top:10px;">
+      <button class="btn" style="padding:2px 20px; font-weight:bold;">登録</button>
+      <button class="btn">閉じる</button>
+    </div>
+
+  </div><!-- /form-box -->
+  </div><!-- /content-wrap -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

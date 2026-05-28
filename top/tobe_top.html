@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>メニュー/TOP - TOBE</title>
+<link rel="stylesheet" href="../_dsmart-design-system/dsmart-base.css">
+<style>
+/* ===== TOBE追加スタイル ===== */
+
+/* ===== TOBE：サイドバーを白背景に上書き ===== */
+.sidebar-links { background: #FFFFFF; }
+.sidebar-links a { color: #000; }
+.sidebar-links a:hover { background: #E8F0F8; }
+.sidebar-menu-close { background: #FFFFFF; color: #0000CC; }
+
+/* ===== TOBE：main 左余白 ===== */
+.main { margin-left: 16px; }
+
+/* ===== TOBE：コンテンツ下余白 ===== */
+.content-wrap { padding-bottom: 40px; }
+
+/* サイドバー：カテゴリリンク */
+.sidebar-links .cat-link {
+  font-weight: bold;
+  padding: 5px 6px;
+  font-size: 12px;
+  border-bottom: 1px solid #E0E0E0;
+}
+.sidebar-links .cat-link:hover {
+  background: #E8F0F8;
+}
+.sidebar-links .cat-icon {
+  margin-right: 5px;
+  font-size: 13px;
+}
+
+/* ===== アコーディオン ===== */
+.cat-accordion {
+  border-bottom: 1px solid #E0E0E0;
+}
+.cat-accordion > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.cat-accordion > summary::-webkit-details-marker { display: none; }
+.cat-arrow {
+  font-size: 9px;
+  opacity: 0.7;
+  margin-left: auto;
+  padding-left: 4px;
+  transition: transform 0.15s;
+}
+.cat-accordion[open] .cat-arrow {
+  transform: rotate(90deg);
+}
+.cat-sub-links {
+  background: #F0F0F0;
+}
+.cat-sub-links a {
+  display: block;
+  padding: 2px 4px 2px 24px;
+  color: #000;
+  text-decoration: none;
+  font-size: 11px;
+  line-height: 1.65;
+}
+.cat-sub-links a:hover { background: #E0EAF4; }
+
+/* ===== 要対応エリア ===== */
+.action-section {
+  margin: 8px 0 10px;
+  border: 1px solid #FF6600;
+  border-left: 4px solid #FF6600;
+  background: #FFFDE7;
+  padding: 6px 10px;
+}
+.action-section-title {
+  font-weight: bold;
+  font-size: 12px;
+  color: #CC4400;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #FFCC88;
+  padding-bottom: 3px;
+}
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 12px;
+}
+.action-badge {
+  display: inline-block;
+  background: #CC0000;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 5px;
+  min-width: 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+.action-label {
+  flex: 1;
+}
+.action-link {
+  color: #0000CC;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+/* ===== カードナビ ===== */
+.cards-section-title {
+  font-weight: bold;
+  font-size: 12px;
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  padding: 3px 8px;
+  margin-bottom: 0;
+}
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+.nav-card {
+  width: calc(50% - 4px);
+  border: 1px solid #808080;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+.nav-card:hover .nav-card-body {
+  background: #E8F0F8;
+}
+.nav-card-header {
+  background: #C8C8C8;
+  border-bottom: 1px solid #808080;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-card-icon {
+  font-size: 15px;
+}
+.nav-card-body {
+  padding: 6px 12px 8px;
+  background: #FFFFFF;
+  transition: background 0.1s;
+}
+.nav-card-body a {
+  display: block;
+  color: #0000CC;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 2px 0;
+  line-height: 1.6;
+}
+.nav-card-body a:hover {
+  text-decoration: underline;
+}
+
+/* ===== お知らせエリア ===== */
+.news-section {
+  margin-top: 8px;
+  border: 1px solid #808080;
+}
+.news-section-title {
+  background: #C8C8C8;
+  border-bottom: 1px solid #808080;
+  padding: 3px 8px;
+  font-weight: bold;
+  font-size: 12px;
+}
+.news-list {
+  padding: 6px 12px;
+  background: #FFFFFF;
+}
+.news-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 12px;
+  border-bottom: 1px dotted #C8C8C8;
+}
+.news-item:last-child {
+  border-bottom: none;
+}
+.news-bullet {
+  color: #003399;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.news-text {
+  flex: 1;
+}
+.news-link {
+  color: #0000CC;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ===== サポートFAB（バクラク風） ===== */
+.support-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(51,51,51,0.54);
+  color: #fff;
+  font-family: "MS Pゴシック", "MS P Gothic", Meiryo, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  cursor: pointer;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.support-fab:hover { background: rgba(51,51,51,0.72); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== サイドバー（6カテゴリ・アコーディオン） ========== -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">青木　俊</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">🏃</span>日常業務<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">勤怠打刻</a>
+        <a href="#">経費申請</a>
+        <a href="#">マイカー精算</a>
+        <a href="#">ワークフロー</a>
+      </div>
+    </details>
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">📋</span>営業・案件<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">書類・申請</a>
+        <a href="#">販促伺い・広告チェック</a>
+        <a href="#">電子契約</a>
+        <a href="#">紹介販売</a>
+      </div>
+    </details>
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">🏠</span>物件・アフター<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">建築系業務ツール</a>
+        <a href="#">マンション系業務ツール</a>
+        <a href="#">アフター管理</a>
+        <a href="#">緊急対応物件管理</a>
+      </div>
+    </details>
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">💴</span>回収・請求<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">請求書</a>
+        <a href="#">回収状況確認</a>
+        <a href="#">依頼書検索</a>
+      </div>
+    </details>
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">📊</span>情報・レポート<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">経費レポート</a>
+        <a href="#">CS・顧客満足</a>
+        <a href="#">環境エネルギー</a>
+        <a href="#">リスク管理</a>
+      </div>
+    </details>
+
+    <details class="cat-accordion">
+      <summary class="cat-link"><span class="cat-icon">⚙️</span>管理・設定<span class="cat-arrow">▶</span></summary>
+      <div class="cat-sub-links">
+        <a href="#">本社受付管理</a>
+        <a href="#">株式等売買届出書</a>
+        <a href="#">経路設定</a>
+        <a href="#">システム初期設定</a>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="main">
+
+  <!-- 画面ID行（青ヘッダー直上・右寄せ） -->
+  <div class="screen-id-bar">[ GPOR10001 ]</div>
+
+  <!-- 画面ヘッダー -->
+  <div class="screen-header">
+    <span class="section-mark">§</span>TOP
+  </div>
+
+  <div class="content-wrap">
+
+    <!-- ① 要対応エリア -->
+    <div class="action-section">
+      <div class="action-section-title">▌ 要対応</div>
+      <div class="action-item">
+        <span class="action-badge">!</span>
+        <span class="action-label">ワークフロー承認</span>
+        <strong style="color:#CC0000;">3件</strong>
+        <a href="#" class="action-link">確認する →</a>
+      </div>
+      <div class="action-item">
+        <span class="action-badge">!</span>
+        <span class="action-label">勤怠修正依頼</span>
+        <strong style="color:#CC0000;">1件</strong>
+        <a href="#" class="action-link">確認する →</a>
+      </div>
+      <div class="action-item">
+        <span class="action-badge" style="background:#808080;">!</span>
+        <span class="action-label">経費申請 未承認</span>
+        <strong style="color:#808080;">2件</strong>
+        <a href="#" class="action-link">確認する →</a>
+      </div>
+    </div>
+
+    <!-- ② カードナビゲーション -->
+    <div class="cards-section-title">▌ よく使う機能</div>
+    <div class="cards-grid">
+
+      <!-- A: 日常業務 -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">🏃</span>日常業務
+        </div>
+        <div class="nav-card-body">
+          <a href="#">勤怠打刻</a>
+          <a href="#">経費申請</a>
+          <a href="#">マイカー精算</a>
+          <a href="#">ワークフロー</a>
+        </div>
+      </div>
+
+      <!-- B: 営業・案件 -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">📋</span>営業・案件
+        </div>
+        <div class="nav-card-body">
+          <a href="#">書類・申請</a>
+          <a href="#">販促伺い・広告チェック</a>
+          <a href="#">電子契約</a>
+          <a href="#">紹介販売</a>
+        </div>
+      </div>
+
+      <!-- C: 物件・アフター -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">🏠</span>物件・アフター
+        </div>
+        <div class="nav-card-body">
+          <a href="#">建築系業務ツール</a>
+          <a href="#">マンション系業務ツール</a>
+          <a href="#">アフター管理</a>
+          <a href="#">緊急対応物件管理</a>
+        </div>
+      </div>
+
+      <!-- D: 回収・請求 -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">💴</span>回収・請求
+        </div>
+        <div class="nav-card-body">
+          <a href="#">請求書</a>
+          <a href="#">回収状況確認</a>
+          <a href="#">依頼書検索</a>
+        </div>
+      </div>
+
+      <!-- E: 情報・レポート -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">📊</span>情報・レポート
+        </div>
+        <div class="nav-card-body">
+          <a href="#">経費レポート</a>
+          <a href="#">CS・顧客満足</a>
+          <a href="#">環境エネルギー</a>
+          <a href="#">リスク管理</a>
+        </div>
+      </div>
+
+      <!-- F: 管理・設定 -->
+      <div class="nav-card">
+        <div class="nav-card-header">
+          <span class="nav-card-icon">⚙️</span>管理・設定
+        </div>
+        <div class="nav-card-body">
+          <a href="#">本社受付管理</a>
+          <a href="#">株式等売買届出書</a>
+          <a href="#">経路設定</a>
+          <a href="#">システム初期設定</a>
+        </div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <!-- ③ お知らせエリア -->
+    <div class="news-section">
+      <div class="news-section-title">▌ お知らせ</div>
+      <div class="news-list">
+        <div class="news-item">
+          <span class="news-bullet">●</span>
+          <span class="news-text">D-SMART改善のお知らせ（5/20）</span>
+          <a href="#" class="news-link">全て見る →</a>
+        </div>
+        <div class="news-item">
+          <span class="news-bullet">●</span>
+          <span class="news-text">会社間メッセージ 新着1件</span>
+          <a href="#" class="news-link">確認する →</a>
+        </div>
+        <div class="news-item">
+          <span class="news-bullet">●</span>
+          <span class="news-text">契約後満足度アンケート（回答期限：5/31）</span>
+          <a href="#" class="news-link">回答する →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-wrap -->
+</div><!-- /main -->
+
+</div><!-- /layout -->
+
+<!-- サポートFAB（固定） -->
+<button class="support-fab">💬 サポート</button>
+
+</body>
+</html>

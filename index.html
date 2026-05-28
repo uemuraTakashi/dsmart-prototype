@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D-Smart UX改善 プロトタイプ一覧</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      background: #f5f6f8;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+    header {
+      background: #003366;
+      color: #fff;
+      padding: 28px 40px;
+    }
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      font-size: 13px;
+      margin-top: 6px;
+      opacity: 0.75;
+    }
+    main {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    .section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .section-header {
+      background: #e8edf4;
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #003366;
+      border-bottom: 1px solid #d0d9e6;
+    }
+    .link-list {
+      list-style: none;
+      padding: 8px 0;
+    }
+    .link-list li {
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      border-bottom: 1px solid #f0f2f5;
+      gap: 12px;
+    }
+    .link-list li:last-child { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 3px;
+      min-width: 46px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .badge-asis {
+      background: #e0e0e0;
+      color: #555;
+    }
+    .badge-tobe {
+      background: #003366;
+      color: #fff;
+    }
+    .link-list a {
+      color: #003d80;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .link-list a:hover {
+      text-decoration: underline;
+      color: #0055b3;
+    }
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>D-Smart UX改善 プロトタイプ一覧</h1>
+    <p>ダイワハウス D-Smart UX/UI 改善プロジェクト — 関係者プレビュー用</p>
+  </header>
+
+  <main>
+
+    <div class="section">
+      <div class="section-header">TOP画面</div>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-asis">ASIS</span>
+          <a href="top/asis_top.html">TOP画面 — 現状</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE</span>
+          <a href="top/tobe_top.html">TOP画面 — 改善案</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-header">マイカー精算を登録する</div>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-asis">ASIS</span>
+          <a href="maicar/asis_maicar.html">マイカー精算 — 現状</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE 1</span>
+          <a href="maicar/tobe1_maicar.html">マイカー精算 — 改善案 1</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE 2</span>
+          <a href="maicar/tobe2_maicar.html">マイカー精算 — 改善案 2</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE 3</span>
+          <a href="maicar/tobe3_maicar.html">マイカー精算 — 改善案 3</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-header">出張精算情報を登録する</div>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-asis">ASIS</span>
+          <a href="chossei/asis_chossei_input.html">出張精算入力 — 現状</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE 1</span>
+          <a href="chossei/tobe1_chossei_input.html">出張精算入力 — 改善案 1（CSS色分け）</a>
+        </li>
+        <li>
+          <span class="badge badge-tobe">TOBE 2</span>
+          <a href="chossei/tobe2_chossei_input.html">出張精算入力 — 改善案 2（10列化＋タイムピッカー）</a>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer>D-Smart UX/UI改善プロジェクト — 関係者限定プレビュー</footer>
+</body>
+</html>

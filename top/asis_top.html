@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>メニュー/TOP - ASIS</title>
+<link rel="stylesheet" href="../_dsmart-design-system/dsmart-base.css">
+<style>
+/* ===== CSSフォルダアイコン（絵文字の代替） ===== */
+/* .icon を CSS 描画ベースに上書き */
+.sidebar-links a .icon {
+  display: inline-block;
+  width: 13px;
+  height: 11px;
+  position: relative;
+  margin-right: 4px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  font-size: 0; /* テキスト非表示（CSS描画に委ねる） */
+}
+/* フォルダ本体 */
+.sidebar-links a .icon.icon-folder::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 13px; height: 8px;
+  background: #E8A800;
+  border: 1px solid #A87000;
+}
+/* フォルダタブ */
+.sidebar-links a .icon.icon-folder::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 6px; height: 3px;
+  background: #E8A800;
+  border: 1px solid #A87000;
+  border-bottom: none;
+}
+/* ページアイコン（インデント項目 ▦ ）: テキスト描画に戻す */
+.sidebar-links a .icon.icon-page {
+  width: auto;
+  height: auto;
+  font-size: 10px;
+  position: static;
+  color: #333;
+}
+
+/* ===== 通知テーブル ===== */
+.notif-table {
+  border-collapse: separate;
+  border-spacing: 0 1px;   /* 縦ボーダーなし、行間1px白ギャップ */
+  width: 100%;
+  font-size: 12px;
+  background: #FFFFFF;     /* ギャップ部分が白で見える */
+}
+.notif-table td {
+  border: none;
+  padding: 3px 8px;
+  background: #C8C8C8;
+}
+.notif-table td.notif-label {
+  color: #000;
+  width: 280px;
+  white-space: nowrap;
+}
+.notif-table td + td {
+  color: #FFFFFF;          /* 右列（2列目）は白文字 */
+}
+
+/* ===== 利益計画表 ===== */
+.profit-header {
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  border-bottom: none;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profit-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.profit-table th {
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  padding: 2px 6px;
+  text-align: center;
+  white-space: nowrap;
+}
+.profit-table td {
+  border: 1px solid #808080;
+  padding: 2px 8px;
+  background: #FFFFFF;
+  text-align: right;
+  white-space: nowrap;
+}
+.profit-table td.row-label {
+  background: #C8C8C8;
+  text-align: left;
+  padding-left: 6px;
+}
+.profit-table td.total-row {
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== サイドバー ========== -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">青木　俊</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon icon-folder"></span>環境エネルギー</a>
+    <a href="#"><span class="icon icon-folder"></span>建築系業務ツール</a>
+    <a href="#"><span class="icon icon-folder"></span>マンション系業務ツール</a>
+    <a href="#"><span class="icon icon-folder"></span>ネクストライフ</a>
+    <a href="#"><span class="icon icon-folder"></span>広告制作関連</a>
+    <a href="#"><span class="icon icon-folder"></span>建築系アフター</a>
+    <a href="#"><span class="icon icon-folder"></span>住宅・集合系アフター</a>
+    <a href="#"><span class="icon icon-folder"></span>マンション系アフター</a>
+    <a href="#"><span class="icon icon-folder"></span>緊急対応物件管理</a>
+    <a href="#"><span class="icon icon-folder"></span>都市開発</a>
+    <a href="#"><span class="icon icon-folder"></span>本社受付管理</a>
+    <a href="#"><span class="icon icon-folder"></span>総務・経費</a>
+    <a href="#"><span class="icon icon-folder"></span>依頼書・伺書・報告書</a>
+    <a href="#"><span class="icon icon-folder"></span>販促伺い・広告チェック</a>
+    <a href="#"><span class="icon icon-folder"></span>株式等売買届出書</a>
+    <a href="#"><span class="icon icon-folder"></span>紹介販売</a>
+    <a href="#"><span class="icon icon-folder"></span>勤怠管理</a>
+    <a href="#"><span class="icon icon-folder"></span>経費精算</a>
+    <a href="#"><span class="icon icon-folder"></span>請求書</a>
+    <a href="#"><span class="icon icon-folder"></span>経費「見える化」</a>
+    <a href="#"><span class="icon icon-folder"></span>リスク管理</a>
+    <a href="#"><span class="icon icon-folder"></span>報告依頼（試行中）</a>
+    <a href="#"><span class="icon icon-folder"></span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon icon-page">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon icon-page">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon icon-folder"></span>経路設定</a>
+    <a href="#"><span class="icon icon-folder"></span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon icon-folder"></span>メッセージ</a>
+    <a href="#"><span class="icon icon-folder"></span>システム初期設定</a>
+  </div>
+</div>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="main">
+
+  <!-- 画面ID行（青ヘッダー直上・右寄せ） -->
+  <div class="screen-id-bar">[ GPOR10001 ]</div>
+
+  <!-- 画面ヘッダー（スクリーンIDは含まない） -->
+  <div class="screen-header">
+    <span class="section-mark">§</span>TOP
+  </div>
+
+  <div class="content-wrap">
+
+    <!-- メッセージ一覧ボタン（余白最小） -->
+    <div style="text-align:right; padding:2px 0 4px;">
+      <button class="btn">メッセージ一覧</button>
+    </div>
+
+    <!-- 通知テーブル（両列グレー） -->
+    <table class="notif-table">
+      <tr>
+        <td class="notif-label">ワークフロー</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">勤怠</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">経費</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">お知らせ（資料請求通知etc）</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">回収（請求書発行状況etc）</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">D-SMART改善のお知らせ</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">お知らせ（契約後満足度向上）</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">反社会的勢力審査情報</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">CS</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">営業</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">共通</td>
+        <td>新着0件あります</td>
+      </tr>
+      <tr>
+        <td class="notif-label">会社間メッセージ</td>
+        <td>新着0件あります</td>
+      </tr>
+    </table>
+
+    <!-- 利益計画表 -->
+    <div style="margin-top:10px;">
+      <div class="profit-header">
+        <span>利益計画表【社内目標（単体）】（88上期&nbsp;<span style="color:#CC0000;">確定版</span>）</span>
+        <span style="font-weight:normal; font-size:11px;">（百万円）</span>
+      </div>
+      <table class="profit-table">
+        <thead>
+          <tr>
+            <th style="width:120px;"></th>
+            <th style="width:100px;">受注</th>
+            <th style="width:100px;">売上</th>
+            <th style="width:80px;">原価率</th>
+            <th style="width:80px;">固定費</th>
+            <th style="width:80px;">その他</th>
+            <th style="width:100px;">利益</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label total-row">大和ハウス　合計</td>
+            <td class="total-row">1,152,000</td>
+            <td class="total-row">1,148,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="total-row">128,000</td>
+          </tr>
+          <tr>
+            <td class="row-label">住宅</td>
+            <td>176,000</td>
+            <td>174,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1,000</td>
+          </tr>
+          <tr>
+            <td class="row-label">集合住宅</td>
+            <td>304,000</td>
+            <td>307,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>33,000</td>
+          </tr>
+          <tr>
+            <td class="row-label">マンション</td>
+            <td>47,000</td>
+            <td>43,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>3,100</td>
+          </tr>
+          <tr>
+            <td class="row-label">流通店舗</td>
+            <td>305,000</td>
+            <td>305,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>41,000</td>
+          </tr>
+          <tr>
+            <td class="row-label">建築</td>
+            <td>270,000</td>
+            <td>272,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>46,000</td>
+          </tr>
+          <tr>
+            <td class="row-label">データセンター</td>
+            <td>2,000</td>
+            <td>400</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>39</td>
+          </tr>
+          <tr>
+            <td class="row-label">環境エネルギー</td>
+            <td>48,000</td>
+            <td>47,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>4,300</td>
+          </tr>
+          <tr>
+            <td class="row-label">調整</td>
+            <td>0</td>
+            <td>-400</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>-439</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /content-wrap -->
+</div><!-- /main -->
+
+</div><!-- /layout -->
+</body>
+</html>

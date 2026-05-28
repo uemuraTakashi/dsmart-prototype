@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>出張精算入力 - TOBE1</title>
+<link rel="stylesheet" href="../_dsmart-design-system/dsmart-base.css">
+<style>
+/* TOBE1: 行ペア視認性向上 */
+table:has(.row-a) thead { border-bottom: 2px solid #000; }
+tr.row-b > td { border-bottom: 2px solid #000 !important; }
+tr.row-a > td[rowspan="2"] { border-bottom: 2px solid #000 !important; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== サイドバー ========== -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">青木　俊</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>環境エネルギー</a>
+    <a href="#"><span class="icon">📁</span>建築系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>マンション系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>ネクストライフ</a>
+    <a href="#"><span class="icon">📁</span>広告制作関連</a>
+    <a href="#"><span class="icon">📁</span>建築系アフター</a>
+    <a href="#"><span class="icon">📁</span>住宅・集合系アフター</a>
+    <a href="#"><span class="icon">📁</span>マンション系アフター</a>
+    <a href="#"><span class="icon">📁</span>緊急対応物件管理</a>
+    <a href="#"><span class="icon">📁</span>都市開発</a>
+    <a href="#"><span class="icon">📁</span>本社受付管理</a>
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>依頼書・伺書・報告書</a>
+    <a href="#"><span class="icon">📁</span>販促伺い・広告チェック</a>
+    <a href="#"><span class="icon">📁</span>株式等売買届出書</a>
+    <a href="#"><span class="icon">📁</span>紹介販売</a>
+    <a href="#"><span class="icon">📁</span>勤怠管理</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+    <a href="#"><span class="icon">📁</span>請求書</a>
+    <a href="#"><span class="icon">📁</span>経費「見える化」</a>
+    <a href="#"><span class="icon">📁</span>リスク管理</a>
+    <a href="#"><span class="icon">📁</span>報告依頼(試行中)</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>メッセージ</a>
+  </div>
+</div>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="main">
+
+  <!-- 画面ヘッダー -->
+  <div class="screen-id-bar">[ GPOR21009 ]</div>
+  <div class="screen-header">
+    <span class="section-mark">§</span>出張精算入力
+  </div>
+
+  <div class="content-wrap">
+  <div class="form-box">
+
+    <!-- ① タイトル -->
+    <table class="form-table" style="margin-bottom:0;">
+      <tr>
+        <td class="lbl" style="width:80px;">タイトル<span class="req">※</span></td>
+        <td colspan="10"><input type="text" style="width:460px;" value="東京支社出張"></td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ② 申請日 / 出張期間 -->
+    <table class="form-table">
+      <tr>
+        <td class="lbl" style="width:60px;">申請日<span class="req">※</span></td>
+        <td style="white-space:nowrap; width:130px;">
+          <input type="text" style="width:82px;" value="2011/07/04">
+          <button class="btn-cal">...</button>
+        </td>
+        <td class="lbl" style="width:100px;">出張期間／時間<span class="req">※</span></td>
+        <td>
+          <div style="white-space:nowrap;">
+            <input type="text" style="width:82px;" value="2011/06/28">
+            <button class="btn-cal">...</button>
+            <input type="text" style="width:28px;" value="">
+            <input type="text" style="width:28px;" value="">
+            &nbsp;～&nbsp;
+            <input type="text" style="width:82px;" value="2011/07/04">
+            <button class="btn-cal">...</button>
+            <input type="text" style="width:28px;" value="">
+            <input type="text" style="width:28px;" value="">
+          </div>
+          <div style="text-align:right;">
+            <button class="btn-link" style="color:#009900;">新規入力</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ③ 本社稟議書番号 -->
+    <table class="form-table">
+      <tr>
+        <td class="lbl" style="width:100px;">本社稟議書番号</td>
+        <td>
+          <input type="text" style="width:120px;">
+          &nbsp;<span style="color:#CC0000; font-size:11px;">※例）73-0001　必ず左記の例の形式で入力して下さい。</span>
+        </td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ④ 依頼書 -->
+    <div class="sub-title-row">依頼書</div>
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th style="width:28px;">No</th>
+          <th style="width:100px;">依頼書番号</th>
+          <th style="width:80px;">種別</th>
+          <th>件名</th>
+          <th style="width:90px;">ステータス</th>
+          <th style="width:80px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center; background:#C8C8C8;">1</td>
+          <td><input type="text" style="width:72px;"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:72px;"></td>
+          <td><input type="text" style="width:98%;"></td>
+          <td><input type="text" style="width:82px;"></td>
+          <td style="background:#C8C8C8; text-align:right;">
+            <button class="btn">更新</button>
+            <button class="btn">削除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:3px 5px;">
+      <button class="btn">行追加</button>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ⑤ メモ -->
+    <table class="form-table">
+      <tr>
+        <td class="lbl" style="width:40px; vertical-align:top; padding-top:4px;">メモ</td>
+        <td><textarea style="width:580px; height:52px;"></textarea></td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ⑥ 出張報告 > 行き先・目的 -->
+    <table class="form-table" style="margin-bottom:0;">
+      <tr>
+        <td style="padding:3px 6px; font-weight:bold; background:#FFFFFF; border-bottom:1px solid #808080;">
+          ＜出張報告＞
+        </td>
+        <td style="text-align:right; padding:3px 4px; background:#FFFFFF; border-bottom:1px solid #808080;">
+          <button class="btn">日誌取込み</button>
+        </td>
+      </tr>
+    </table>
+
+    <table class="form-table" style="margin-bottom:0;">
+      <thead>
+        <tr>
+          <th colspan="3" style="text-align:left; background:#C8C8C8;">行き先・目的</th>
+          <th style="text-align:right; background:#C8C8C8;"><button class="btn">追加</button></th>
+        </tr>
+        <tr>
+          <th style="width:82px;">出発日</th>
+          <th style="width:82px;">帰着日</th>
+          <th colspan="2">内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" style="width:78px;" value="2011/06/28"><br>
+            <button class="btn-cal">...</button><br>
+            <input type="text" style="width:36px;">&nbsp;<input type="text" style="width:36px;">
+          </td>
+          <td>
+            <input type="text" style="width:78px;" value="2011/07/04"><br>
+            <button class="btn-cal">...</button><br>
+            <input type="text" style="width:36px;">&nbsp;<input type="text" style="width:36px;">
+          </td>
+          <td colspan="2">
+            <textarea style="width:100%; height:58px; border:none; box-shadow:none; background:#fff;">【行き先】東京支社
+【目　的】戦略会議
+【同行者】</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" style="text-align:right; padding:2px 4px; background:#fff;">
+            <button class="btn">削除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 出張実績 -->
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th colspan="3" style="text-align:left; background:#C8C8C8;">出張実績</th>
+          <th style="text-align:right; background:#C8C8C8;"><button class="btn">追加</button></th>
+        </tr>
+        <tr>
+          <th style="width:82px;">出発日</th>
+          <th style="width:82px;">帰着日</th>
+          <th colspan="2">内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" style="width:78px;" value="2011/06/28"><br>
+            <button class="btn-cal">...</button><br>
+            <input type="text" style="width:36px;">&nbsp;<input type="text" style="width:36px;">
+          </td>
+          <td>
+            <input type="text" style="width:78px;" value="2011/07/04"><br>
+            <button class="btn-cal">...</button><br>
+            <input type="text" style="width:36px;">&nbsp;<input type="text" style="width:36px;">
+          </td>
+          <td colspan="2">
+            <textarea style="width:100%; height:65px; border:none; box-shadow:none; background:#fff;">【訪　客】
+【活動メモ】
+【活動内容】
+【活動対象】</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" style="text-align:right; padding:2px 4px; background:#fff;">
+            <button class="btn">削除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ⑦ 旅費・日当・宿泊費 -->
+    <div style="padding:4px 6px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;">
+        <span><strong>＜旅費・日当・宿泊費＞</strong>&nbsp;&nbsp;あなたの宿泊費は9,000円です。</span>
+      </div>
+      <div style="text-align:right; margin-bottom:1px;">
+        <span class="note-black">各行の全額欄には、旅費、日当、宿泊費のいずれかに入力してください。</span>
+      </div>
+      <div style="text-align:right; margin-bottom:4px;">
+        <span class="note-red">時刻入力は任意です。（但し、海外出張のフライト時刻は必須）</span>
+      </div>
+    </div>
+
+    <table class="form-table" style="font-size:11px;">
+      <colgroup>
+        <col style="width:88px">  <!-- 負担部課 -->
+        <col style="width:100px"> <!-- 年月日/行先 -->
+        <col style="width:48px">  <!-- 区間 -->
+        <col style="width:20px">  <!-- 自至 -->
+        <col style="width:26px">  <!-- 時 -->
+        <col style="width:26px">  <!-- 刻 -->
+        <col style="width:22px">  <!-- 発着 -->
+        <col style="width:48px">  <!-- 旅費タクシー -->
+        <col style="width:42px">  <!-- 旅費その他 金額 -->
+        <col style="width:60px">  <!-- 交通種圏（支払先） -->
+        <col style="width:38px">  <!-- 宿泊代金/海外日当 -->
+        <col style="width:30px">  <!-- 領収書枚数 -->
+        <col style="width:50px">  <!-- 挿入/削除 -->
+      </colgroup>
+      <thead>
+        <tr>
+          <th>負担部課</th>
+          <th>年月日<span class="req">※</span></th>
+          <th rowspan="2">区間</th>
+          <th>自</th>
+          <th colspan="2">時刻</th>
+          <th>発</th>
+          <th rowspan="2">旅費<br>タクシー</th>
+          <th colspan="2">旅費その他</th>
+          <th rowspan="2">宿泊<br>代金<br>海外<br>日当</th>
+          <th rowspan="2">領収<br>書<br>枚数</th>
+          <th rowspan="2"></th>
+        </tr>
+        <tr>
+          <th>項目名<span class="req">※</span><br>（未払パターン）</th>
+          <th>行 先<span class="req">※</span></th>
+          <th>至</th>
+          <th>時</th>
+          <th>刻</th>
+          <th>着</th>
+          <th></th>
+          <th>交通種圏（支払先）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 行1a -->
+        <tr class="row-a">
+          <td><select style="width:84px; font-size:11px;"><option>情報システム部</option></select></td>
+          <td><input type="text" style="width:80px; font-size:11px;" value="2011/06/28"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:44px; font-size:11px;" value="大阪"></td>
+          <td style="text-align:center; font-size:12px; font-weight:bold; color:#CC3300;">自</td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="09"></td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="00"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td><select style="font-size:11px; width:56px;"><option>ANA</option></select></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+          <td rowspan="2" style="text-align:center; vertical-align:middle;">
+            <button class="btn" style="display:block; width:44px; margin-bottom:2px;">挿入</button>
+            <button class="btn" style="display:block; width:44px;">削除</button>
+          </td>
+        </tr>
+        <!-- 行1b -->
+        <tr class="row-b">
+          <td><select style="width:84px; font-size:11px;"><option>旅費交通費</option></select></td>
+          <td>
+            <input type="text" style="width:96%; font-size:11px;" value="東京支社"><br>
+            <input type="text" style="width:96%; font-size:11px;" value="東京">
+          </td>
+          <td><input type="text" style="width:44px; font-size:11px;" value="東京"></td>
+          <td style="text-align:center; font-size:12px; font-weight:bold; color:#003399;">至</td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="13"></td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="00"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;" value="15,000"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+        </tr>
+        <!-- 行2a -->
+        <tr class="row-a">
+          <td><select style="width:84px; font-size:11px;"><option>情報システム部</option></select></td>
+          <td><input type="text" style="width:80px; font-size:11px;" value="2011/07/04"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:44px; font-size:11px;" value="東京"></td>
+          <td style="text-align:center; font-size:12px; font-weight:bold; color:#CC3300;">自</td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="12"></td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="00"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td><select style="font-size:11px; width:56px;"><option>ANA</option></select></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+          <td rowspan="2" style="text-align:center; vertical-align:middle;">
+            <button class="btn" style="display:block; width:44px; margin-bottom:2px;">挿入</button>
+            <button class="btn" style="display:block; width:44px;">削除</button>
+          </td>
+        </tr>
+        <!-- 行2b -->
+        <tr class="row-b">
+          <td><select style="width:84px; font-size:11px;"><option>旅費交通費</option></select></td>
+          <td>
+            <input type="text" style="width:96%; font-size:11px;" value="本社"><br>
+            <input type="text" style="width:96%; font-size:11px;" value="大阪">
+          </td>
+          <td><input type="text" style="width:44px; font-size:11px;" value="大阪"></td>
+          <td style="text-align:center; font-size:12px; font-weight:bold; color:#003399;">至</td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="16"></td>
+          <td><input type="text" style="width:22px; font-size:11px;" value="00"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;" value="15,000"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+        </tr>
+        <!-- 空行3a -->
+        <tr class="row-a">
+          <td><select style="width:84px; font-size:11px;"><option>情報システム部</option></select></td>
+          <td><input type="text" style="width:80px; font-size:11px;"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td><select style="font-size:11px; width:56px;"><option></option></select></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+          <td rowspan="2" style="text-align:center; vertical-align:middle;">
+            <button class="btn" style="display:block; width:44px; margin-bottom:2px;">挿入</button>
+            <button class="btn" style="display:block; width:44px;">削除</button>
+          </td>
+        </tr>
+        <!-- 空行3b -->
+        <tr class="row-b">
+          <td><select style="width:84px; font-size:11px;"><option></option></select></td>
+          <td>
+            <input type="text" style="width:96%; font-size:11px;"><br>
+            <input type="text" style="width:96%; font-size:11px;">
+          </td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+        </tr>
+        <!-- 空行4a -->
+        <tr class="row-a">
+          <td><select style="width:84px; font-size:11px;"><option>情報システム部</option></select></td>
+          <td><input type="text" style="width:80px; font-size:11px;"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td><select style="font-size:11px; width:56px;"><option></option></select></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+          <td rowspan="2" style="text-align:center; vertical-align:middle;">
+            <button class="btn" style="display:block; width:44px; margin-bottom:2px;">挿入</button>
+            <button class="btn" style="display:block; width:44px;">削除</button>
+          </td>
+        </tr>
+        <!-- 空行4b -->
+        <tr class="row-b">
+          <td><select style="width:84px; font-size:11px;"><option></option></select></td>
+          <td>
+            <input type="text" style="width:96%; font-size:11px;"><br>
+            <input type="text" style="width:96%; font-size:11px;">
+          </td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+        </tr>
+        <!-- 空行5a -->
+        <tr class="row-a">
+          <td><select style="width:84px; font-size:11px;"><option>情報システム部</option></select></td>
+          <td><input type="text" style="width:80px; font-size:11px;"><button class="btn-cal">...</button></td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td><select style="font-size:11px; width:56px;"><option></option></select></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+          <td rowspan="2" style="text-align:center; vertical-align:middle;">
+            <button class="btn" style="display:block; width:44px; margin-bottom:2px;">挿入</button>
+            <button class="btn" style="display:block; width:44px;">削除</button>
+          </td>
+        </tr>
+        <!-- 空行5b -->
+        <tr class="row-b">
+          <td><select style="width:84px; font-size:11px;"><option></option></select></td>
+          <td>
+            <input type="text" style="width:96%; font-size:11px;"><br>
+            <input type="text" style="width:96%; font-size:11px;">
+          </td>
+          <td><input type="text" style="width:44px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td><input type="text" style="width:22px; font-size:11px;"></td>
+          <td></td>
+          <td><input type="text" style="width:42px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:38px; font-size:11px; text-align:right;"></td>
+          <td></td>
+          <td><input type="text" style="width:34px; font-size:11px; text-align:right;"></td>
+          <td><input type="text" style="width:26px; font-size:11px; text-align:center;"></td>
+        </tr>
+        <!-- 合計行 -->
+        <tr>
+          <td colspan="4" style="padding:3px 5px; border:none; background:#FFFFFF;">
+            <button class="btn">最終行追加</button>
+          </td>
+          <td colspan="3" style="text-align:right; font-weight:bold; border-top:2px solid #000; border-left:none; border-right:none; background:#C8C8C8;">計</td>
+          <td style="text-align:right; border-top:2px solid #000; background:#fff;">0</td>
+          <td style="text-align:right; border-top:2px solid #000; background:#fff;">30,000</td>
+          <td style="border-top:2px solid #000; background:#FFFFFF;"></td>
+          <td style="text-align:right; border-top:2px solid #000; background:#fff; font-size:10px;">0<br>0</td>
+          <td style="text-align:right; border-top:2px solid #000; background:#fff;">0</td>
+          <td style="background:#FFFFFF; border-top:2px solid #000;"></td>
+        </tr>
+        <!-- (A)行 -->
+        <tr>
+          <td colspan="12" style="border:none; background:#FFFFFF;"></td>
+          <td style="font-weight:bold; text-align:right; white-space:nowrap; border-top:1px solid #808080;">30,000(A)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="sep">
+
+    <!-- ⑧ 旅費・日当・宿泊費以外 -->
+    <div style="padding:4px 6px 2px; font-weight:bold;">＜旅費・日当・宿泊費以外＞</div>
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th style="width:90px;">負担部課</th>
+          <th style="width:120px;">項目名<span class="req">※</span><br>（未払パターン）</th>
+          <th style="width:60px;">金額<span class="req">※</span></th>
+          <th style="width:42px;">領収書<br>枚数</th>
+          <th>備考<span class="req">※</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><select style="width:86px;"><option>情報システム部</option></select></td>
+          <td><select style="width:116px;"><option>雑費</option></select></td>
+          <td style="text-align:right; background:#fff;">
+            <input type="text" style="width:54px; text-align:right;" value="1,000">
+          </td>
+          <td style="text-align:center; background:#fff;">
+            <input type="text" style="width:32px; text-align:center;" value="1">
+          </td>
+          <td style="background:#fff; padding:1px 2px;">
+            <textarea style="width:100%; height:36px; border:none; box-shadow:none;">領収日付：2011/07/04</textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:3px 5px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #808080;">
+      <button class="btn">行登録</button>
+      <span style="font-size:11px; margin-left:auto;">計&nbsp;&nbsp;<strong>1,000</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong>1(B)</strong></span>
+    </div>
+
+    <!-- ⑨ 添付書類 -->
+    <div style="padding:4px 6px 2px; font-weight:bold;">＜添付書類＞</div>
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th style="width:200px;">ファイル名</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="background:#fff;"><input type="text" style="width:96%;"></td>
+          <td style="background:#fff;"><input type="text" style="width:96%;"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:3px 5px;">
+      <button class="btn">取込</button>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ⑩ 合計・登録ボタン -->
+    <div class="submit-bar">
+      <span>請求額(A＋B)&nbsp;&nbsp;<strong>31,000</strong></span>
+      <span>仮払使用額(D)&nbsp;&nbsp;<strong>0</strong></span>
+      <span>差引支払(支入)額&nbsp;&nbsp;<strong>31,000</strong></span>
+      <span>領収書枚数&nbsp;&nbsp;<strong>1</strong></span>
+      <button class="btn">登録</button>
+    </div>
+
+  </div><!-- /form-box -->
+  </div><!-- /content-wrap -->
+
+</div><!-- /main -->
+</div><!-- /layout -->
+</body>
+</html>

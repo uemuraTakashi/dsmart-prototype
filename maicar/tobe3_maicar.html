@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイカー精算 - TOBE3</title>
+<link rel="stylesheet" href="../_dsmart-design-system/dsmart-base.css">
+<style>
+/* ===== TOBE3: ルート登録 + 高速代自動入力 ===== */
+
+/* ステップインジケーター */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 10px 0;
+  font-size: 12px;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+.step-indicator .step-node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.step-indicator .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+  background: #C8C8C8;
+  color: #666;
+  border: 1px solid #808080;
+}
+.step-indicator .step-label { font-size: 11px; color: #666; }
+.step-indicator .step-arrow { margin: 0 8px; color: #808080; font-size: 14px; }
+.step-indicator .step-node.active .step-num { background: #003399; color: #fff; border-color: #003399; }
+.step-indicator .step-node.active .step-label { color: #003399; font-weight: bold; }
+.step-indicator .step-node.done .step-num { background: #669933; color: #fff; border-color: #669933; }
+.step-indicator .step-node.done .step-label { color: #669933; }
+
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+.section-title {
+  background: #003399;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 8px;
+  margin: 8px 0 4px 0;
+}
+
+/* 前回値 */
+.prev-val { font-size: 10px; color: #888; display: block; margin-top: 1px; }
+.prev-val-btn {
+  font-size: 10px;
+  background: #E8F0FF;
+  border: 1px solid #6699CC;
+  color: #003399;
+  padding: 1px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.prev-val-btn:hover { background: #CCDDff; }
+
+/* ルートカード */
+.route-card {
+  border: 1px solid #6699CC;
+  background: #F0F5FF;
+  padding: 6px 10px 8px 10px;
+  margin-bottom: 6px;
+  max-width: 540px;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+
+/* 自動計算列 */
+td.auto-calc { background: #E8F0FF !important; text-align: right; }
+th.auto-calc-head { background: #9BBDE8 !important; }
+
+/* 行ペア区切り */
+table:has(.row-a) thead { border-bottom: 2px solid #003399; }
+tr.row-b > td { border-bottom: 2px solid #003399 !important; }
+tr.row-a > td[rowspan="2"] { border-bottom: 2px solid #003399 !important; }
+tr.row-a > td:not([rowspan="2"]) { border-bottom: 1px dashed #aaa; }
+
+/* 概算 */
+.calc-preview {
+  font-size: 10px;
+  color: #003399;
+  background: #EEF4FF;
+  border: 1px dashed #6699CC;
+  padding: 1px 4px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ルート列インジケーター */
+.highway-tag {
+  font-size: 9px;
+  color: #003399;
+  background: #D8E8FF;
+  border: 1px solid #99BBDD;
+  padding: 0 3px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-top: 1px;
+}
+.dist-hint { font-size: 9px; color: #888; margin-top: 1px; }
+
+/* ステップナビ */
+.step-nav { display: flex; gap: 8px; justify-content: center; margin: 12px 0 4px 0; }
+.btn-next {
+  background: #003399;
+  color: #fff;
+  border-top: 2px solid #4466CC;
+  border-left: 2px solid #4466CC;
+  border-right: 2px solid #001166;
+  border-bottom: 2px solid #001166;
+  padding: 3px 20px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+.btn-next:active {
+  border-top: 2px solid #001166;
+  border-left: 2px solid #001166;
+  border-right: 2px solid #4466CC;
+  border-bottom: 2px solid #4466CC;
+}
+
+/* 確認テーブル */
+td.confirm-val { background: #F5F5F5 !important; text-align: right; }
+
+/* サマリーボックス */
+.summary-box {
+  background: #EEF4FF;
+  border: 1px solid #6699CC;
+  padding: 8px 12px;
+  margin: 8px 0;
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+  flex-wrap: wrap;
+}
+.summary-item { display: flex; flex-direction: column; align-items: center; }
+.summary-item .s-label { font-size: 10px; color: #666; }
+.summary-item .s-value { font-size: 16px; font-weight: bold; color: #003399; }
+.summary-item .s-unit  { font-size: 10px; color: #666; }
+
+/* 領収書 */
+.receipt-row {
+  display: flex; align-items: center; gap: 6px; padding: 2px 0;
+  font-size: 11px; font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+.receipt-row .receipt-date { width: 72px; color: #333; }
+.receipt-row .receipt-type { width: 64px; color: #555; }
+.receipt-row .btn-camera {
+  background: #336699; color: #fff; border: 1px solid #224488;
+  padding: 2px 8px; font-size: 10px; cursor: pointer;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+.receipt-row .btn-file {
+  background: #C8C8C8;
+  border-top: 2px solid #fff; border-left: 2px solid #fff;
+  border-right: 2px solid #666; border-bottom: 2px solid #666;
+  padding: 1px 8px; font-size: 10px; cursor: pointer;
+  font-family: "MS Pゴシック", Meiryo, Arial, sans-serif;
+}
+.receipt-row .attached-name { font-size: 10px; color: #006600; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== サイドバー ========== -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">担当　太郎</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>環境エネルギー</a>
+    <a href="#"><span class="icon">📁</span>建築系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>マンション系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>ネクストライフ</a>
+    <a href="#"><span class="icon">📁</span>広告制作関連</a>
+    <a href="#"><span class="icon">📁</span>建築系アフター</a>
+    <a href="#"><span class="icon">📁</span>住宅・集合系アフター</a>
+    <a href="#"><span class="icon">📁</span>マンション系アフター</a>
+    <a href="#"><span class="icon">📁</span>緊急対応物件管理</a>
+    <a href="#"><span class="icon">📁</span>都市開発</a>
+    <a href="#"><span class="icon">📁</span>本社受付管理</a>
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>依頼書・伺書・報告書</a>
+    <a href="#"><span class="icon">📁</span>販促伺い・広告チェック</a>
+    <a href="#"><span class="icon">📁</span>株式等売買届出書</a>
+    <a href="#"><span class="icon">📁</span>紹介販売</a>
+    <a href="#"><span class="icon">📁</span>勤怠管理</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+    <a href="#"><span class="icon">📁</span>請求書</a>
+    <a href="#"><span class="icon">📁</span>経費「見える化」</a>
+    <a href="#"><span class="icon">📁</span>リスク管理</a>
+    <a href="#"><span class="icon">📁</span>報告依頼(試行中)</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>メッセージ</a>
+  </div>
+</div>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="main">
+
+  <div class="screen-id-bar">[ GPOR21110 ]</div>
+  <div class="screen-header">
+    <span class="section-mark">§</span> マイカー精算
+  </div>
+
+  <div class="content-wrap">
+  <div class="form-box">
+
+    <!-- ステップインジケーター -->
+    <div class="step-indicator">
+      <div class="step-node active" id="node1">
+        <span class="step-num">1</span>
+        <span class="step-label">基本情報・ルート</span>
+      </div>
+      <span class="step-arrow">▶</span>
+      <div class="step-node" id="node2">
+        <span class="step-num">2</span>
+        <span class="step-label">走行・給油記録</span>
+      </div>
+      <span class="step-arrow">▶</span>
+      <div class="step-node" id="node3">
+        <span class="step-num">3</span>
+        <span class="step-label">確認・提出</span>
+      </div>
+    </div>
+
+    <hr class="sep" style="margin:0 0 8px 0;">
+
+    <!-- ==============================
+         STEP 1: 基本情報 + ルート登録
+    ============================== -->
+    <div id="step1" class="step-panel active">
+
+      <div class="section-title">STEP 1 ／ 基本情報を入力してください</div>
+
+      <table class="form-table" style="margin-bottom:0;">
+        <tr>
+          <td class="lbl" style="width:90px;">精算月<span class="req">※</span></td>
+          <td>
+            <select style="width:120px;">
+              <option>2023年10月</option>
+              <option>2023年9月</option>
+              <option>2023年8月</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">燃料区分<span class="req">※</span></td>
+          <td>
+            <select style="width:120px;">
+              <option>ガソリン</option>
+              <option>軽油</option>
+              <option>ハイオク</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">社用車番号</td>
+          <td>
+            <input type="text" style="width:120px;" value="">
+            <span class="prev-val">前回入力：品川 300 あ 1234</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">カタログ燃費</td>
+          <td>
+            <input type="text" style="width:60px; text-align:right;" value="15.0"> km/ℓ
+            <span class="note-black">（ガソリン単価：<input type="text" style="width:48px; text-align:right;" value="165"> 円/ℓ）</span>
+          </td>
+        </tr>
+      </table>
+
+      <hr class="sep">
+
+      <!-- ルート登録セクション -->
+      <div class="section-title">よく使うルートを登録（STEP2 で高速代が自動入力されます）</div>
+      <div style="font-size:11px; color:#555; padding:2px 0 8px 2px;">
+        ※ 会社拠点を選択、またはデータベースにない場合は「直接入力...」で住所を入力してください
+      </div>
+
+      <div id="route-cards">
+        <!-- ルートカード 1（デモ：東京本社→横浜支社 プリセット） -->
+        <div class="route-card" data-card-id="c1">
+          <div style="display:flex; align-items:center; margin-bottom:5px;">
+            <span style="font-size:11px; font-weight:bold; color:#003399;">ルート 1</span>
+            <button class="btn" style="font-size:10px; padding:1px 6px; margin-left:auto;"
+              onclick="removeRouteCard('c1')">削除</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+            <span style="font-size:11px; font-weight:bold; color:#CC3300; min-width:40px;">出発地</span>
+            <select id="loc-sel-dep-c1" style="width:134px;" onchange="onLocChange('c1','dep')">
+              <option value="">（選択してください）</option>
+              <option value="東京本社" selected>東京本社</option>
+              <option value="横浜支社">横浜支社</option>
+              <option value="大阪支社">大阪支社</option>
+              <option value="名古屋支社">名古屋支社</option>
+              <option value="福岡支社">福岡支社</option>
+              <option value="札幌支社">札幌支社</option>
+              <option value="仙台支社">仙台支社</option>
+              <option value="広島支社">広島支社</option>
+              <option value="千葉支社">千葉支社</option>
+              <option value="さいたま支社">さいたま支社</option>
+              <option value="__direct__">直接入力...</option>
+            </select>
+            <input type="text" id="loc-direct-dep-c1" style="width:134px; display:none;"
+              placeholder="住所を直接入力" oninput="updateRoutePreview('c1')">
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+            <span style="font-size:11px; font-weight:bold; color:#003399; min-width:40px;">目的地</span>
+            <select id="loc-sel-dst-c1" style="width:134px;" onchange="onLocChange('c1','dst')">
+              <option value="">（選択してください）</option>
+              <option value="東京本社">東京本社</option>
+              <option value="横浜支社" selected>横浜支社</option>
+              <option value="大阪支社">大阪支社</option>
+              <option value="名古屋支社">名古屋支社</option>
+              <option value="福岡支社">福岡支社</option>
+              <option value="札幌支社">札幌支社</option>
+              <option value="仙台支社">仙台支社</option>
+              <option value="広島支社">広島支社</option>
+              <option value="千葉支社">千葉支社</option>
+              <option value="さいたま支社">さいたま支社</option>
+              <option value="__direct__">直接入力...</option>
+            </select>
+            <input type="text" id="loc-direct-dst-c1" style="width:134px; display:none;"
+              placeholder="住所を直接入力" oninput="updateRoutePreview('c1')">
+          </div>
+          <div id="route-preview-c1" style="font-size:11px; color:#003399; padding:3px 0 0 46px;">
+            → 推定距離: <strong>45 km</strong>　／　高速: <strong>首都高速</strong>　推定 <strong>1,200 円</strong>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:4px 0 10px 0;">
+        <button id="btn-add-route" class="btn" onclick="addRouteCard()" style="font-size:11px; padding:2px 10px;">
+          ＋ ルートを追加（最大3件）
+        </button>
+        <span style="font-size:10px; color:#888; margin-left:8px;">
+          ルートを登録しない場合は STEP2 で手動入力できます
+        </span>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-next" onclick="goStep(2)">次へ：走行・給油記録 ▶</button>
+      </div>
+
+    </div><!-- /step1 -->
+
+    <!-- ==============================
+         STEP 2: 走行・給油記録
+    ============================== -->
+    <div id="step2" class="step-panel">
+
+      <div class="section-title">STEP 2 ／ 走行距離・給油を入力してください</div>
+      <div style="font-size:11px; color:#003399; padding:2px 0 6px 2px;">
+        ※ 走行距離は走行後km − 走行前km で自動計算　／　ルートを選択すると高速代が自動入力されます
+      </div>
+
+      <table class="form-table" style="font-size:11px;">
+        <colgroup>
+          <col style="width:72px;"><!-- 年月日 -->
+          <col style="width:22px;"><!-- 曜 -->
+          <col style="width:92px;"><!-- ルート（新規） -->
+          <col style="width:52px;"><!-- 走行前km -->
+          <col style="width:52px;"><!-- 走行後km -->
+          <col style="width:52px;"><!-- 走行距離（自動） -->
+          <col style="width:46px;"><!-- 私用走行 -->
+          <col style="width:44px;"><!-- 給油量 -->
+          <col style="width:72px;"><!-- 概算ガソリン費（自動） -->
+          <col style="width:50px;"><!-- 高速代 -->
+          <col style="width:48px;"><!-- 駐車代 -->
+          <col style="width:44px;"><!-- 合計金額 -->
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">年月日</th>
+            <th rowspan="2">曜</th>
+            <th rowspan="2" style="background:#D0E8D0;">ルート<br><span style="font-size:9px; font-weight:normal; color:#336633;">高速代 自動入力</span></th>
+            <th>走行前km</th>
+            <th>走行後km</th>
+            <th rowspan="2" class="auto-calc-head">走行距離<br><span style="font-size:9px; font-weight:normal;">(自動)</span></th>
+            <th rowspan="2">私用<br>走行</th>
+            <th rowspan="2">給油量<br>(ℓ)</th>
+            <th rowspan="2" class="auto-calc-head">概算<br>ガソリン費<br><span style="font-size:9px; font-weight:normal;">(自動)</span></th>
+            <th>高速代</th>
+            <th>駐車代</th>
+            <th rowspan="2">合計<br>金額</th>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align:left; padding-left:4px; font-weight:normal; background:#e0e0e0;">メモ</th>
+            <th colspan="2" style="background:#e0e0e0; font-weight:normal; text-align:center;">（任意）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 2023/10/07 土 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/07</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">土</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="07" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('07', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-07" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-07" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="07" style="width:40px; text-align:right;" value="0"
+                oninput="calcRow('07')">
+              <span class="prev-val">前回: 0</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="07" style="width:40px; text-align:right;" value="0"
+                oninput="calcRow('07')">
+            </td>
+            <td class="auto-calc"><span id="dist-07">0</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="07" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('07')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-07" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="07" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="0"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-07">0</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/08 日 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/08</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">日</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="08" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('08', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-08" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-08" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="08" style="width:40px; text-align:right;" value="0"
+                oninput="calcRow('08')">
+              <span class="prev-val">前回: 0</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="08" style="width:40px; text-align:right;" value="0"
+                oninput="calcRow('08')">
+            </td>
+            <td class="auto-calc"><span id="dist-08">0</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="08" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('08')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-08" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="08" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="0"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-08">0</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/09 月（ルート1適用済みデモ） -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/09</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">月</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="09" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('09', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-09" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-09" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="09" style="width:40px; text-align:right;" value="300"
+                oninput="calcRow('09')">
+              <span class="prev-val">前回: 200</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="09" style="width:40px; text-align:right;" value="400"
+                oninput="calcRow('09')">
+            </td>
+            <td class="auto-calc"><span id="dist-09">100</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="09" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('09')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-09" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="09" style="width:38px; text-align:right;" value="1200"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="900"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-09">2,100</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/10 火 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/10</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">火</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="10" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('10', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-10" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-10" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="10" style="width:40px; text-align:right;" value="400"
+                oninput="calcRow('10')">
+              <span class="prev-val">前回: 300</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="10" style="width:40px; text-align:right;" value="500"
+                oninput="calcRow('10')">
+            </td>
+            <td class="auto-calc"><span id="dist-10">100</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="10" style="width:32px; text-align:right;" value="20"
+                oninput="calcFuel('10')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-10" class="calc-preview">3,300 円</span></td>
+            <td><input type="text" class="toll-input" data-row="10" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="1000"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-10">4,300</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/11 水 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/11</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">水</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="11" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('11', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-11" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-11" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="11" style="width:40px; text-align:right;" value="500"
+                oninput="calcRow('11')">
+              <span class="prev-val">前回: 400</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="11" style="width:40px; text-align:right;" value="600"
+                oninput="calcRow('11')">
+            </td>
+            <td class="auto-calc"><span id="dist-11">100</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="11" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('11')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-11" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="11" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="0"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-11">0</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/12 木 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/12</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">木</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="12" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('12', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-12" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-12" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="12" style="width:40px; text-align:right;" value="600"
+                oninput="calcRow('12')">
+              <span class="prev-val">前回: 500</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="12" style="width:40px; text-align:right;" value="700"
+                oninput="calcRow('12')">
+            </td>
+            <td class="auto-calc"><span id="dist-12">100</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="12" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('12')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-12" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="12" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="0"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-12">0</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 2023/10/13 金 -->
+          <tr class="row-a">
+            <td rowspan="2" style="vertical-align:middle;">2023/10/13</td>
+            <td rowspan="2" style="text-align:center; vertical-align:middle;">金</td>
+            <td rowspan="2" style="vertical-align:top; padding:2px; background:#F5FFF5;">
+              <select class="route-apply-sel" data-row="13" style="width:88px; font-size:10px;"
+                onchange="applyRouteToRow('13', this)">
+                <option value="">（ルートなし）</option>
+              </select>
+              <div id="highway-name-13" class="highway-tag" style="display:none;"></div>
+              <div id="dist-hint-13" class="dist-hint"></div>
+            </td>
+            <td>
+              <input type="text" class="km-before" data-row="13" style="width:40px; text-align:right;" value="700"
+                oninput="calcRow('13')">
+              <span class="prev-val">前回: 600</span>
+            </td>
+            <td>
+              <input type="text" class="km-after" data-row="13" style="width:40px; text-align:right;" value="0"
+                oninput="calcRow('13')">
+            </td>
+            <td class="auto-calc"><span id="dist-13">-700</span></td>
+            <td><input type="text" style="width:34px; text-align:right;" value="0"></td>
+            <td>
+              <input type="text" class="fuel-input" data-row="13" style="width:32px; text-align:right;" value="0"
+                oninput="calcFuel('13')">
+            </td>
+            <td class="auto-calc"><span id="fuel-cost-13" class="calc-preview">0 円</span></td>
+            <td><input type="text" class="toll-input" data-row="13" style="width:38px; text-align:right;" value="0"></td>
+            <td><input type="text" style="width:36px; text-align:right;" value="0"></td>
+            <td rowspan="2" style="text-align:right; vertical-align:middle;" id="total-13">0</td>
+          </tr>
+          <tr class="row-b">
+            <td colspan="8" style="padding:1px 2px;"><input type="text" style="width:99%;"></td>
+          </tr>
+
+          <!-- 合計行 -->
+          <tr>
+            <td colspan="5" class="lbl" style="text-align:center; font-weight:bold;">合計</td>
+            <td class="auto-calc" id="total-dist">-300</td>
+            <td style="text-align:right;">0</td>
+            <td style="text-align:right; background:#E8F0FF;" id="total-fuel">20</td>
+            <td class="auto-calc"><span class="calc-preview">3,300 円</span></td>
+            <td style="text-align:right;">1,200</td>
+            <td style="text-align:right;">1,900</td>
+            <td style="text-align:right; font-weight:bold;">6,400</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="step-nav">
+        <button class="btn" onclick="goStep(1)">◀ 戻る</button>
+        <button class="btn-next" onclick="goStep(3)">次へ：確認・提出 ▶</button>
+      </div>
+
+    </div><!-- /step2 -->
+
+    <!-- ==============================
+         STEP 3: 確認・提出
+    ============================== -->
+    <div id="step3" class="step-panel">
+
+      <div class="section-title">STEP 3 ／ 内容を確認して登録してください</div>
+
+      <div class="summary-box">
+        <div class="summary-item">
+          <span class="s-label">精算月</span>
+          <span class="s-value" style="font-size:14px;">2023年10月</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">総走行距離</span>
+          <span class="s-value">500</span>
+          <span class="s-unit">km</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">給油量</span>
+          <span class="s-value">20</span>
+          <span class="s-unit">ℓ</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">概算ガソリン費</span>
+          <span class="s-value">3,300</span>
+          <span class="s-unit">円</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">高速代合計</span>
+          <span class="s-value">1,200</span>
+          <span class="s-unit">円</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">駐車代合計</span>
+          <span class="s-value">1,900</span>
+          <span class="s-unit">円</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">合計申請額</span>
+          <span class="s-value" style="color:#CC3300;">6,400</span>
+          <span class="s-unit">円</span>
+        </div>
+      </div>
+
+      <!-- 確認テーブル（ルート列付き） -->
+      <table class="form-table" style="font-size:11px; margin-bottom:8px;">
+        <colgroup>
+          <col style="width:72px;">
+          <col style="width:22px;">
+          <col style="width:120px;"><!-- 目的地 -->
+          <col style="width:52px;">
+          <col style="width:44px;">
+          <col style="width:66px;"><!-- 高速名 -->
+          <col style="width:50px;">
+          <col style="width:48px;">
+          <col style="width:44px;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>年月日</th>
+            <th>曜</th>
+            <th>目的地</th>
+            <th>走行距離</th>
+            <th>給油量(ℓ)</th>
+            <th>高速名</th>
+            <th>高速代</th>
+            <th>駐車代</th>
+            <th>金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023/10/07</td><td style="text-align:center;">土</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val">0</td>
+          </tr>
+          <tr>
+            <td>2023/10/08</td><td style="text-align:center;">日</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val">0</td>
+          </tr>
+          <tr>
+            <td>2023/10/09</td><td style="text-align:center;">月</td>
+            <td class="confirm-val" style="text-align:left;">横浜支社</td>
+            <td class="confirm-val">100</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left; font-size:10px; color:#003399;">首都高速</td>
+            <td class="confirm-val">1,200</td><td class="confirm-val">900</td>
+            <td class="confirm-val">2,100</td>
+          </tr>
+          <tr>
+            <td>2023/10/10</td><td style="text-align:center;">火</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">100</td><td class="confirm-val">20</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">1,000</td>
+            <td class="confirm-val">4,300</td>
+          </tr>
+          <tr>
+            <td>2023/10/11</td><td style="text-align:center;">水</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">100</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val">0</td>
+          </tr>
+          <tr>
+            <td>2023/10/12</td><td style="text-align:center;">木</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">100</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val">0</td>
+          </tr>
+          <tr>
+            <td>2023/10/13</td><td style="text-align:center;">金</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">-700</td><td class="confirm-val">0</td>
+            <td class="confirm-val" style="text-align:left;">—</td>
+            <td class="confirm-val">0</td><td class="confirm-val">0</td>
+            <td class="confirm-val">0</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="lbl" style="text-align:center; font-weight:bold;">合計</td>
+            <td class="confirm-val"></td>
+            <td class="confirm-val" style="font-weight:bold;">-300</td>
+            <td class="confirm-val" style="font-weight:bold;">20</td>
+            <td class="confirm-val"></td>
+            <td class="confirm-val" style="font-weight:bold;">1,200</td>
+            <td class="confirm-val" style="font-weight:bold;">1,900</td>
+            <td class="confirm-val" style="font-weight:bold; color:#CC3300;">6,400</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 領収書添付 -->
+      <div class="section-title">領収書を添付してください（スマートフォンからカメラで撮影可）</div>
+      <div style="padding:6px 4px; background:#FAFAFA; border:1px solid #C8C8C8; margin-bottom:8px;">
+        <div class="receipt-row">
+          <span class="receipt-date">2023/10/09</span>
+          <span class="receipt-type">高速代 領収書</span>
+          <button class="btn-camera">📷 撮影</button>
+          <button class="btn-file">📁 ファイル選択</button>
+          <input type="file" accept="image/*" capture="environment" style="display:none;">
+          <span class="attached-name">（未添付）</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-date">2023/10/09</span>
+          <span class="receipt-type">駐車代 領収書</span>
+          <button class="btn-camera">📷 撮影</button>
+          <button class="btn-file">📁 ファイル選択</button>
+          <input type="file" accept="image/*" capture="environment" style="display:none;">
+          <span class="attached-name">（未添付）</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-date">2023/10/10</span>
+          <span class="receipt-type">駐車代 領収書</span>
+          <button class="btn-camera">📷 撮影</button>
+          <button class="btn-file">📁 ファイル選択</button>
+          <input type="file" accept="image/*" capture="environment" style="display:none;">
+          <span class="attached-name" style="color:#006600;">✓ parking_1010.jpg</span>
+        </div>
+        <div style="font-size:10px; color:#888; padding-top:4px;">
+          ※ スマートフォンからアクセスすると「📷 撮影」ボタンでカメラが直接起動します
+        </div>
+      </div>
+
+      <!-- 備考 -->
+      <table class="form-table" style="margin-bottom:8px;">
+        <tr>
+          <td class="lbl" style="width:40px; vertical-align:top; padding-top:4px;">備考</td>
+          <td><textarea style="width:580px; height:48px;"></textarea></td>
+        </tr>
+      </table>
+
+      <div class="step-nav">
+        <button class="btn" onclick="goStep(2)">◀ 戻る</button>
+        <button class="btn-next" style="background:#CC3300; border-color:#FF5522 #991100 #991100 #FF5522;">
+          登録する
+        </button>
+      </div>
+
+    </div><!-- /step3 -->
+
+  </div><!-- /form-box -->
+  </div><!-- /content-wrap -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+/* ===== ルートDB（模擬） ===== */
+var COMPANY_LOCATIONS = [
+  '東京本社','横浜支社','大阪支社','名古屋支社',
+  '福岡支社','札幌支社','仙台支社','広島支社',
+  '千葉支社','さいたま支社'
+];
+var ROUTE_DB = {
+  '東京本社→横浜支社':    { dist:45,  highway:'首都高速',   toll:1200 },
+  '東京本社→大阪支社':    { dist:530, highway:'東名・名神', toll:7500 },
+  '東京本社→名古屋支社':  { dist:360, highway:'東名高速',   toll:5500 },
+  '東京本社→千葉支社':    { dist:50,  highway:'なし',        toll:0    },
+  '東京本社→さいたま支社':{ dist:30,  highway:'なし',        toll:0    },
+  '東京本社→福岡支社':    { dist:1100,highway:'東名・山陽',  toll:15000},
+  '横浜支社→大阪支社':    { dist:510, highway:'東名・名神', toll:7200 },
+  '横浜支社→名古屋支社':  { dist:320, highway:'東名高速',   toll:5000 }
+};
+
+var registeredRoutes = [];
+var _cardCounter = 1;
+
+/* ===== ルートカード管理 ===== */
+function buildLocationOptions(selected) {
+  var html = '<option value="">（選択してください）</option>';
+  COMPANY_LOCATIONS.forEach(function(loc) {
+    html += '<option value="' + loc + '"' + (loc === selected ? ' selected' : '') + '>' + loc + '</option>';
+  });
+  html += '<option value="__direct__">直接入力...</option>';
+  return html;
+}
+
+function onLocChange(cardId, type) {
+  var selEl = document.getElementById('loc-sel-' + type + '-' + cardId);
+  var directEl = document.getElementById('loc-direct-' + type + '-' + cardId);
+  if (selEl.value === '__direct__') {
+    directEl.style.display = 'inline';
+    directEl.focus();
+  } else {
+    directEl.style.display = 'none';
+  }
+  updateRoutePreview(cardId);
+}
+
+function getLocVal(cardId, type) {
+  var selEl = document.getElementById('loc-sel-' + type + '-' + cardId);
+  if (!selEl) return '';
+  if (selEl.value === '__direct__') {
+    var d = document.getElementById('loc-direct-' + type + '-' + cardId);
+    return d ? d.value.trim() : '';
+  }
+  return selEl.value;
+}
+
+function updateRoutePreview(cardId) {
+  var dep = getLocVal(cardId, 'dep');
+  var dst = getLocVal(cardId, 'dst');
+  var el = document.getElementById('route-preview-' + cardId);
+  if (!dep || !dst) { if (el) el.innerHTML = ''; syncRoutes(); return; }
+  var key = dep + '→' + dst;
+  var info = ROUTE_DB[key];
+  if (info) {
+    el.style.color = '#003399';
+    el.innerHTML = '→ 推定距離: <strong>' + info.dist + ' km</strong>　／　高速: <strong>' + info.highway + '</strong>' +
+      (info.toll > 0 ? '　推定 <strong>' + info.toll.toLocaleString() + ' 円</strong>' : '　（高速なし）');
+  } else {
+    el.style.color = '#888888';
+    el.innerHTML = '※ ルート情報なし — STEP2 で手動入力してください';
+  }
+  syncRoutes();
+}
+
+function syncRoutes() {
+  registeredRoutes = [];
+  document.querySelectorAll('.route-card').forEach(function(card, i) {
+    var cid = card.dataset.cardId;
+    var dep = getLocVal(cid, 'dep');
+    var dst = getLocVal(cid, 'dst');
+    if (!dep || !dst) return;
+    var key = dep + '→' + dst;
+    var info = ROUTE_DB[key] || null;
+    registeredRoutes.push({
+      num: i + 1,
+      label: dep + ' → ' + dst,
+      dep: dep, dst: dst,
+      dist: info ? info.dist : null,
+      highway: info ? info.highway : null,
+      toll: info ? info.toll : null
+    });
+  });
+  updateRouteDropdowns();
+}
+
+function updateRouteDropdowns() {
+  document.querySelectorAll('.route-apply-sel').forEach(function(sel) {
+    var cur = sel.value;
+    sel.innerHTML = '<option value="">（ルートなし）</option>';
+    registeredRoutes.forEach(function(r, i) {
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = 'ルート' + r.num + ': ' + r.dep + '→' + r.dst +
+        (r.toll !== null ? ' (¥' + r.toll.toLocaleString() + ')' : '');
+      sel.appendChild(opt);
+    });
+    if (cur !== '') sel.value = cur;
+  });
+}
+
+function applyRouteToRow(rowId, selEl) {
+  var hwEl   = document.getElementById('highway-name-' + rowId);
+  var hintEl = document.getElementById('dist-hint-' + rowId);
+  var idx    = parseInt(selEl.value);
+
+  if (isNaN(idx) || selEl.value === '') {
+    if (hwEl)   { hwEl.textContent = ''; hwEl.style.display = 'none'; }
+    if (hintEl)   hintEl.textContent = '';
+    return;
+  }
+  var route = registeredRoutes[idx];
+  if (!route) return;
+
+  /* 高速代を自動入力 */
+  var tollEl = document.querySelector('.toll-input[data-row="' + rowId + '"]');
+  if (tollEl && route.toll !== null) tollEl.value = route.toll;
+
+  /* 高速名バッジ表示 */
+  if (hwEl && route.highway && route.highway !== 'なし') {
+    hwEl.textContent = route.highway;
+    hwEl.style.display = 'inline-block';
+  } else if (hwEl) {
+    hwEl.textContent = '';
+    hwEl.style.display = 'none';
+  }
+
+  /* 距離ヒント */
+  if (hintEl && route.dist !== null) {
+    hintEl.textContent = '(参考: ' + route.dist + ' km)';
+  }
+}
+
+function addRouteCard() {
+  var cards = document.querySelectorAll('.route-card');
+  if (cards.length >= 3) return;
+  _cardCounter++;
+  var cardId = 'c' + _cardCounter;
+  var num = cards.length + 1;
+  var div = document.createElement('div');
+  div.className = 'route-card';
+  div.dataset.cardId = cardId;
+  div.innerHTML =
+    '<div style="display:flex;align-items:center;margin-bottom:5px;">' +
+      '<span style="font-size:11px;font-weight:bold;color:#003399;">ルート ' + num + '</span>' +
+      '<button class="btn" style="font-size:10px;padding:1px 6px;margin-left:auto;" onclick="removeRouteCard(\'' + cardId + '\')">削除</button>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">' +
+      '<span style="font-size:11px;font-weight:bold;color:#CC3300;min-width:40px;">出発地</span>' +
+      '<select id="loc-sel-dep-' + cardId + '" style="width:134px;" onchange="onLocChange(\'' + cardId + '\',\'dep\')">' + buildLocationOptions('') + '</select>' +
+      '<input type="text" id="loc-direct-dep-' + cardId + '" style="width:134px;display:none;" placeholder="住所を直接入力" oninput="updateRoutePreview(\'' + cardId + '\')">' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">' +
+      '<span style="font-size:11px;font-weight:bold;color:#003399;min-width:40px;">目的地</span>' +
+      '<select id="loc-sel-dst-' + cardId + '" style="width:134px;" onchange="onLocChange(\'' + cardId + '\',\'dst\')">' + buildLocationOptions('') + '</select>' +
+      '<input type="text" id="loc-direct-dst-' + cardId + '" style="width:134px;display:none;" placeholder="住所を直接入力" oninput="updateRoutePreview(\'' + cardId + '\')">' +
+    '</div>' +
+    '<div id="route-preview-' + cardId + '" style="font-size:11px;padding:3px 0 0 46px;min-height:16px;"></div>';
+  document.getElementById('route-cards').appendChild(div);
+  updateAddBtnState();
+}
+
+function removeRouteCard(cardId) {
+  var card = document.querySelector('.route-card[data-card-id="' + cardId + '"]');
+  if (card) card.remove();
+  syncRoutes();
+  updateAddBtnState();
+  renumberCards();
+}
+
+function renumberCards() {
+  document.querySelectorAll('.route-card').forEach(function(card, i) {
+    var span = card.querySelector('span[style*="color:#003399"]');
+    if (span) span.textContent = 'ルート ' + (i + 1);
+  });
+}
+
+function updateAddBtnState() {
+  var btn = document.getElementById('btn-add-route');
+  var count = document.querySelectorAll('.route-card').length;
+  btn.disabled = count >= 3;
+  btn.style.opacity = count >= 3 ? '0.5' : '1';
+}
+
+/* ===== ステップ切り替え ===== */
+function goStep(n) {
+  [1, 2, 3].forEach(function(i) {
+    document.getElementById('step' + i).classList.toggle('active', i === n);
+    var node = document.getElementById('node' + i);
+    node.classList.remove('active', 'done');
+    if (i === n)     node.classList.add('active');
+    else if (i < n)  node.classList.add('done');
+  });
+}
+
+/* ===== 走行距離の自動計算 ===== */
+function calcRow(rowId) {
+  var before = parseFloat(document.querySelector('.km-before[data-row="' + rowId + '"]').value) || 0;
+  var after  = parseFloat(document.querySelector('.km-after[data-row="' + rowId + '"]').value)  || 0;
+  document.getElementById('dist-' + rowId).textContent = after - before;
+}
+
+/* ===== 給油費の概算計算 ===== */
+var GAS_PRICE = 165;
+function calcFuel(rowId) {
+  var fuel = parseFloat(document.querySelector('.fuel-input[data-row="' + rowId + '"]').value) || 0;
+  document.getElementById('fuel-cost-' + rowId).textContent = Math.round(fuel * GAS_PRICE).toLocaleString() + ' 円';
+}
+
+/* ===== 領収書ボタン ===== */
+document.querySelectorAll('.btn-file').forEach(function(btn) {
+  btn.addEventListener('click', function() { btn.nextElementSibling.click(); });
+});
+document.querySelectorAll('.btn-camera').forEach(function(btn) {
+  btn.addEventListener('click', function() { btn.nextElementSibling.nextElementSibling.click(); });
+});
+
+/* ===== 初期化：ルート同期 + デモ適用 ===== */
+document.addEventListener('DOMContentLoaded', function() {
+  syncRoutes();
+  /* 2023/10/09 月 に ルート1（東京本社→横浜支社）をデモ適用 */
+  var sel09 = document.querySelector('.route-apply-sel[data-row="09"]');
+  if (sel09 && registeredRoutes.length > 0) {
+    sel09.value = '0';
+    applyRouteToRow('09', sel09);
+  }
+});
+</script>
+</body>
+</html>
