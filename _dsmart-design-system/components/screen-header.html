@@ -1,0 +1,20 @@
+<!-- ================================================================
+  D-SMART 画面ヘッダーバー コンポーネント
+  依存CSS : ../dsmart-base.css
+  使用方法: .main の直下（content-wrap の前）に配置する
+
+  プレースホルダー:
+    {{SCREEN_NAME}}  → 画面名（例: 出張精算入力）
+    {{SCREEN_ID}}    → 画面ID（例: GPOR21009）
+
+  使用例:
+    <div class="screen-header">
+      <span class="section-mark">§</span>出張精算入力
+      <span class="screen-id">[ GPOR21009 ]</span>
+    </div>
+  ================================================================ -->
+
+<div class="screen-header">
+  <span class="section-mark">§</span>{{SCREEN_NAME}}
+  <span class="screen-id">[ {{SCREEN_ID}} ]</span>
+</div>

@@ -1,0 +1,72 @@
+<!-- ================================================================
+  D-SMART サイドバー コンポーネント
+  依存CSS : ../dsmart-base.css
+  使用方法: このスニペットをコピーして .layout 直下に配置する
+
+  カスタマイズ箇所:
+    .sidebar-username  → ログインユーザー名
+    .sidebar-dept      → 部署名（2行表示）
+    .sidebar-date      → 今日の日付
+    .sidebar-links     → メニューリスト（追加・削除・indent クラスで階層化）
+  ================================================================ -->
+
+<div class="sidebar">
+
+  <!-- ロゴ -->
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+
+  <!-- ユーザー名 -->
+  <div class="sidebar-username">青木　俊</div>
+
+  <!-- ナビボタン -->
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+
+  <!-- 部署名 -->
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+
+  <!-- 日付 -->
+  <div class="sidebar-date">2026年4月22日水曜日(友引)</div>
+
+  <!-- メニューを閉じる -->
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+
+  <!-- メニューリンク -->
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>環境エネルギー</a>
+    <a href="#"><span class="icon">📁</span>建築系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>マンション系業務ツール</a>
+    <a href="#"><span class="icon">📁</span>ネクストライフ</a>
+    <a href="#"><span class="icon">📁</span>広告制作関連</a>
+    <a href="#"><span class="icon">📁</span>建築系アフター</a>
+    <a href="#"><span class="icon">📁</span>住宅・集合系アフター</a>
+    <a href="#"><span class="icon">📁</span>マンション系アフター</a>
+    <a href="#"><span class="icon">📁</span>緊急対応物件管理</a>
+    <a href="#"><span class="icon">📁</span>都市開発</a>
+    <a href="#"><span class="icon">📁</span>本社受付管理</a>
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>依頼書・伺書・報告書</a>
+    <a href="#"><span class="icon">📁</span>販促伺い・広告チェック</a>
+    <a href="#"><span class="icon">📁</span>株式等売買届出書</a>
+    <a href="#"><span class="icon">📁</span>紹介販売</a>
+    <a href="#"><span class="icon">📁</span>勤怠管理</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+    <a href="#"><span class="icon">📁</span>請求書</a>
+    <a href="#"><span class="icon">📁</span>経費「見える化」</a>
+    <a href="#"><span class="icon">📁</span>リスク管理</a>
+    <a href="#"><span class="icon">📁</span>報告依頼(試行中)</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>メッセージ</a>
+  </div>
+
+</div>

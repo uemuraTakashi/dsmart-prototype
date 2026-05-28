@@ -1,0 +1,447 @@
+/* ================================================================
+   D-SMART デザインシステム — dsmart-base.css
+   Web 1.0 業務系 / Windows XP Classic 風 ASIS 再現テンプレート
+   ================================================================
+
+   設計思想:
+     対象システム : ダイワハウス D-SMART 業務システム（2000年代 ASP/JSP）
+     レイアウト手法: HTMLテーブルレイアウト + サーバーサイドレンダリング
+     ビジュアル基準: Windows 98/XP Classic テーマ
+
+   カラーパレット:
+     グレー背景    #C8C8C8  ボタン / ヘッダth / ラベル
+     ボーダー標準  #808080  テーブル枠 / 区切り線
+     ボーダー薄    #999999  入力フォームの外枠
+     入力背景      #FFFFFF  input / textarea / select テキスト部
+     青ヘッダ      #003399  画面ヘッダーバー
+     必須赤        #CC0000  ※マーク / エラー
+     リンク青      #0000CC  テキストリンク
+     ユーザーバー  #6699CC  サイドバーユーザー名欄
+
+   UIパーツ一覧:
+     レイアウト    .layout / .main / .content-wrap / .form-box
+     サイドバー    .sidebar 系
+     画面ヘッダ    .screen-id-bar / .screen-header / .section-mark
+     入力要素      input / textarea / select / input[checkbox]
+     ボタン        .btn / .btn-cal / .btn-link
+     テーブル      table.form-table / th / td / .lbl / .sub-title-row
+     ユーティリティ .sep / .req / .note-red / .note-black / .submit-bar
+   ================================================================ */
+
+
+/* ================================================================
+   リセット & ベース
+   ================================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 12px;
+  background: #FFFFFF;
+  color: #000;
+  min-height: 100vh;
+}
+
+
+/* ================================================================
+   ページレイアウト
+   ================================================================ */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* メインコンテンツエリア */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+
+/* フォームコンテンツ幅制御 */
+.content-wrap {
+  padding: 6px 8px;
+  width: 820px;
+}
+
+/* フォーム外枠（ボーダーなし） */
+.form-box {
+  background: #FFFFFF;
+}
+
+
+/* ================================================================
+   サイドバー
+   ================================================================ */
+.sidebar {
+  width: 190px;
+  min-width: 190px;
+  background: #FFFFFF;
+  border-right: 1px solid #999;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+}
+
+/* ロゴ */
+.sidebar-logo {
+  background: #fff;
+  padding: 6px 8px 4px;
+  border-bottom: 2px solid #808080;
+}
+.logo-text {
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+  color: #CC0000;
+  letter-spacing: -1px;
+}
+.logo-text .logo-d { color: #0033AA; }
+
+/* ユーザー名 */
+.sidebar-username {
+  background: #6699CC;
+  color: #fff;
+  text-align: center;
+  padding: 3px 4px;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 1px solid #4477AA;
+}
+
+/* TOP / HELP / MY PORTAL / 終了 ボタン群 */
+.sidebar-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #808080;
+}
+.sidebar-btn {
+  display: block;
+  background: #336699;
+  color: #fff;
+  text-align: center;
+  padding: 3px 2px;
+  text-decoration: none;
+  font-size: 11px;
+  border: 1px solid #fff;
+  cursor: pointer;
+  font-family: inherit;
+}
+.sidebar-btn:hover { background: #4477AA; }
+
+/* 部署名 */
+.sidebar-dept {
+  background: #FF6699;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 5px;
+  line-height: 1.4;
+}
+
+/* 日付 */
+.sidebar-date {
+  background: #336699;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 5px;
+  text-align: center;
+}
+
+/* メニューを閉じる */
+.sidebar-menu-close {
+  text-align: right;
+  padding: 2px 5px;
+  font-size: 10px;
+  color: #FFFFFF;
+  text-decoration: underline;
+  cursor: pointer;
+  background: #CC3333;
+}
+
+/* メニューリンク */
+.sidebar-links {
+  overflow-y: auto;
+  flex: 1;
+  background: #CC3333;
+}
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  padding: 1px 4px;
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 11px;
+  line-height: 1.65;
+  white-space: nowrap;
+}
+.sidebar-links a:hover { background: rgba(255,255,255,0.15); }
+.sidebar-links a .icon { margin-right: 3px; font-size: 10px; }
+.sidebar-links a.indent { padding-left: 16px; }
+
+
+/* ================================================================
+   画面ヘッダーバー
+   ================================================================ */
+
+/* 画面ID行（青ヘッダー直上・右寄せ） */
+.screen-id-bar {
+  text-align: right;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: #000;
+  background: #FFFFFF;
+  margin-top: 6px;
+  width: 820px;
+}
+
+.screen-header {
+  background: #003399;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #001166;
+  width: 820px;
+  border-radius: 999px;
+}
+/* § マーク（黄色） */
+.section-mark { color: #FFCC00; margin-right: 6px; }
+
+
+/* ================================================================
+   フォーム入力要素  (Windows XP Classic 風)
+
+   統一ルール:
+     input[text/number] : inset box-shadow で凹み枠
+     textarea           : 同上（セル内フル幅のものは border:none を上書き）
+     select             : appearance:none + SVG で ▼ ボタンを再現
+     input[checkbox]    : appearance:none + 左上濃/右下淡ボーダーで凹み枠
+   ================================================================ */
+
+/* テキスト入力・数値入力 */
+input[type="text"],
+input[type="number"] {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #999;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.35);
+  padding: 1px 2px;
+  color: #000;
+  vertical-align: middle;
+}
+
+/* テキストエリア */
+textarea {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #999;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.35);
+  padding: 1px 2px;
+  color: #000;
+  resize: none;
+  overflow-y: scroll;
+}
+
+/* セレクトボックス
+   SVG構成: 左1px=セパレータ(#808080) / グレーボタン(#C8C8C8) / 3Dベベル / ▼三角 */
+select {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 12px;
+  color: #000;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%23C8C8C8'/%3E%3Crect x='0' y='0' width='1' height='16' fill='%23808080'/%3E%3Crect x='1' y='0' width='15' height='1' fill='%23ffffff'/%3E%3Crect x='1' y='1' width='1' height='13' fill='%23ffffff'/%3E%3Crect x='15' y='1' width='1' height='15' fill='%23666666'/%3E%3Crect x='1' y='15' width='15' height='1' fill='%23666666'/%3E%3Cpolygon points='4%2C6 12%2C6 8%2C11' fill='%23000000'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0px top 0px;
+  background-size: 16px 100%;
+  border: 1px solid #999;
+  padding: 1px 18px 1px 2px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  cursor: default;
+  vertical-align: middle;
+}
+
+/* チェックボックス
+   左上=濃(#808080) / 右下=淡(#dfdfdf) の凹み枠でWin XP Classic を再現 */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  background: #fff;
+  border: 1px solid #808080;
+  border-right-color: #dfdfdf;
+  border-bottom-color: #dfdfdf;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.15);
+  cursor: default;
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+}
+input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: -3px;
+  left: 0px;
+  font-size: 12px;
+  color: #000;
+  line-height: 1;
+}
+
+
+/* ================================================================
+   ボタン類  (Windows XP Classic 風 3D ベベルボタン)
+
+   ベベル原則:
+     通常時  : 上/左=白(#fff) / 右/下=濃灰(#666) → 浮き上がり
+     押下時  : 上/左=濃灰   / 右/下=白           → 沈み込み
+   ================================================================ */
+
+/* 標準ボタン */
+.btn {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 12px;
+  background: #C8C8C8;
+  color: #000;
+  border-top:    2px solid #fff;
+  border-left:   2px solid #fff;
+  border-right:  2px solid #666;
+  border-bottom: 2px solid #666;
+  border-radius: 0;
+  padding: 1px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 20px;
+}
+.btn:active {
+  border-top:    2px solid #666;
+  border-left:   2px solid #666;
+  border-right:  2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+.btn:hover { background: #B8B8B8; }
+
+/* カレンダー選択ボタン「...」 */
+.btn-cal {
+  font-family: "MS Pゴシック", "MS P Gothic", "ＭＳ Ｐゴシック", Meiryo, Arial, sans-serif;
+  font-size: 11px;
+  background: #C8C8C8;
+  color: #000;
+  border-top:    2px solid #fff;
+  border-left:   2px solid #fff;
+  border-right:  2px solid #666;
+  border-bottom: 2px solid #666;
+  border-radius: 0;
+  padding: 0px 4px;
+  cursor: pointer;
+  min-height: 18px;
+  min-width: 22px;
+}
+.btn-cal:active {
+  border-top:    2px solid #666;
+  border-left:   2px solid #666;
+  border-right:  2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* テキストリンク風ボタン（色は使用箇所でインライン指定） */
+.btn-link {
+  background: none;
+  border: none;
+  color: #0000CC;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  padding: 0;
+}
+
+
+/* ================================================================
+   テーブル & フォームレイアウト部品
+   ================================================================ */
+
+/* セクション水平区切り線 */
+.sep {
+  border: none;
+  border-top: 1px solid #808080;
+  margin: 0;
+}
+
+/* サブセクションタイトル行（依頼書・添付書類 等） */
+.sub-title-row {
+  background: #C8C8C8;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  padding: 2px 6px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* フォームテーブル共通
+   th : グレー背景 / td : 白背景（入力セルのデフォルト） */
+table.form-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+table.form-table th {
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  padding: 2px 4px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+table.form-table td {
+  border: 1px solid #808080;
+  padding: 2px 3px;
+  background: #FFFFFF;
+  vertical-align: middle;
+}
+
+/* ラベルセル（グレー背景・読み取り専用） */
+.lbl {
+  background: #C8C8C8;
+  padding: 2px 5px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+/* 必須マーク */
+.req { color: #CC0000; }
+
+
+/* ================================================================
+   ユーティリティ & 注記
+   ================================================================ */
+.note-red   { color: #CC0000; font-size: 11px; }
+.note-black { font-size: 11px; }
+.total-val  { font-weight: bold; text-align: right; padding: 1px 4px; }
+
+
+/* ================================================================
+   画面下部 登録ボタンバー
+   ================================================================ */
+.submit-bar {
+  background: #C8C8C8;
+  border-top: 2px solid #808080;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+.submit-bar .btn {
+  margin-left: auto;
+  padding: 2px 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
