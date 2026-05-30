@@ -17,6 +17,7 @@
      必須赤        #CC0000  ※マーク / エラー
      リンク青      #0000CC  テキストリンク
      ユーザーバー  #6699CC  サイドバーユーザー名欄
+     サイドバー背景 #338080  メニューリンク領域 / メニューを閉じるバー
 
    UIパーツ一覧:
      レイアウト    .layout / .main / .content-wrap / .form-box
@@ -156,14 +157,14 @@ body {
   color: #FFFFFF;
   text-decoration: underline;
   cursor: pointer;
-  background: #CC3333;
+  background: #338080;
 }
 
 /* メニューリンク */
 .sidebar-links {
   overflow-y: auto;
   flex: 1;
-  background: #CC3333;
+  background: #338080;
 }
 .sidebar-links a {
   display: flex;
