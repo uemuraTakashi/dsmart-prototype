@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイカー・社用車使用許可申請書 - ASIS</title>
+<link rel="stylesheet" href="../../_dsmart-design-system/dsmart-base.css">
+<style>
+.section-label {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  background: #003399;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 3px;
+  font-size: 11px;
+  width: 22px;
+}
+table.form-table td.sub-lbl {
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  padding: 2px 4px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- サイドバー -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">青木　俊</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月1日水曜日</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+  </div>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="main">
+  <div class="screen-id-bar">[ GWFL41202 ]</div>
+  <div class="screen-header">
+    <span class="section-mark">§</span> マイカー・社用車使用許可申請書
+  </div>
+
+  <div class="content-wrap">
+    <div class="form-box">
+
+      <!-- 文書ヘッダー -->
+      <table class="form-table" style="margin-top:6px">
+        <colgroup>
+          <col style="width:80px">
+          <col style="width:130px">
+          <col style="width:55px">
+          <col>
+        </colgroup>
+        <tr>
+          <th class="lbl">依頼書番号</th>
+          <td></td>
+          <th class="lbl">件名<span class="req">※</span></th>
+          <td>車両使用許可（青木　俊）の件(新規)</td>
+        </tr>
+        <tr>
+          <th class="lbl">発信日</th>
+          <td></td>
+          <th class="lbl">発信者</th>
+          <td>青木　俊</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="background:#fff;border-left:none;border-bottom:none"></td>
+          <th class="lbl">発信部署</th>
+          <td>東京本社情報システ 住宅事業ソ</td>
+        </tr>
+      </table>
+
+      <div style="height:6px"></div>
+
+      <!-- メインフォーム（本人の申告事項） -->
+      <!-- 列構成: col1=申告事項縦ラベル / col2=主ラベル / col3=サブラベル1 / col4=フィールドラベル / col5=値A / col6=ラベルB / col7=値B -->
+      <table class="form-table">
+        <colgroup>
+          <col style="width:22px">
+          <col style="width:88px">
+          <col style="width:44px">
+          <col style="width:78px">
+          <col style="width:106px">
+          <col style="width:64px">
+          <col>
+        </colgroup>
+
+        <!-- 社員番号 / 入社年月日 / 勤続年数 -->
+        <tr>
+          <td class="section-label" rowspan="17">本人の申告事項</td>
+          <th class="lbl">社員番号</th>
+          <td colspan="2" style="background:#fff;text-align:left;padding:2px 5px">00499004</td>
+          <th class="lbl">入社年月日</th>
+          <td style="padding:2px 5px">2026/04/01</td>
+          <th class="lbl">勤続年数</th>
+          <td style="padding:2px 5px">0</td>
+        </tr>
+
+        <!-- 申請区分 -->
+        <tr>
+          <th class="lbl">申請区分</th>
+          <td colspan="5" style="padding:2px 5px">新規</td>
+        </tr>
+
+        <!-- 許可種別 ＋ 申請前状況 -->
+        <tr>
+          <th class="lbl"><span class="req">許可種別※</span></th>
+          <td colspan="2">
+            <select style="width:170px">
+              <option value="">（選択してください）</option>
+              <option value="1">一種（通勤 + 業務）</option>
+              <option value="2">二種（通勤のみ）</option>
+              <option value="3">三種（業務のみ）</option>
+              <option value="4">四種（二種 + 社用車）</option>
+              <option value="5">五種（二種 + 三種）</option>
+              <option value="6">六種（社用車）</option>
+              <option value="7">七種（社員以外）</option>
+            </select>
+          </td>
+          <th class="lbl">申請前状況</th>
+          <td colspan="2" style="padding:2px 5px">許可なし</td>
+        </tr>
+
+        <!-- 申請理由 -->
+        <tr>
+          <th class="lbl">申請理由<span class="req">※</span></th>
+          <td colspan="5" style="padding:2px 4px">
+            <textarea style="width:460px;height:52px" placeholder="など、具体的に理由を記入してください。"></textarea>
+          </td>
+        </tr>
+
+        <!-- 免許証有効期限 -->
+        <tr>
+          <th class="lbl">免許証有効期限<span class="req">※</span></th>
+          <td colspan="5" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>年
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>月
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>日
+          </td>
+        </tr>
+
+        <!-- 通勤方法（片道）— 現在：通勤機関 -->
+        <tr>
+          <th class="lbl" rowspan="7">通勤方法（片道）</th>
+          <td class="sub-lbl" rowspan="3">現在</td>
+          <th class="lbl">通勤機関</th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <!-- 現在：経路 -->
+        <tr>
+          <th class="lbl">経路</th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <!-- 現在：所要時間 -->
+        <tr>
+          <th class="lbl">所要時間</th>
+          <td colspan="3"><input type="number" style="width:48px"> 分</td>
+        </tr>
+        <!-- 車使用の場合：距離 -->
+        <tr>
+          <td class="sub-lbl" rowspan="4">車使用<br>の場合</td>
+          <th class="lbl">距離<span class="req">※</span></th>
+          <td colspan="3"><input type="number" style="width:56px"> km</td>
+        </tr>
+        <!-- 車使用：経路 -->
+        <tr>
+          <th class="lbl">経路<span class="req">※</span></th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <!-- 車使用：所要時間 -->
+        <tr>
+          <th class="lbl">所要時間<span class="req">※</span></th>
+          <td colspan="3"><input type="number" style="width:48px"> 分</td>
+        </tr>
+        <!-- 車使用：使用開始日 -->
+        <tr>
+          <th class="lbl">使用開始日</th>
+          <td colspan="3" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>年
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>月
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>日
+          </td>
+        </tr>
+
+        <!-- 安全運転講習会 — 注記行 -->
+        <tr>
+          <th class="lbl" rowspan="2">安全運転<br>講習会<span class="req">※</span></th>
+          <td colspan="5" class="note-black" style="padding:3px 5px">
+            直近1年以内に安全運転講習会に出席していますか？（新規の場合は、次回の講習会に出席のこと。）
+          </td>
+        </tr>
+        <!-- 安全運転講習会 — ラジオ ＋ 参加日 -->
+        <tr>
+          <td colspan="2" style="padding:2px 5px">
+            <label><input type="radio" name="training">&nbsp;未受講</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="training">&nbsp;受講予定</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="training">&nbsp;受講済み</label>
+          </td>
+          <th class="lbl">参加日<span class="req">※</span></th>
+          <td colspan="2" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option></select>年
+            <select style="width:34px"><option></option></select>月
+            <select style="width:34px"><option></option></select>日
+          </td>
+        </tr>
+
+        <!-- 違反・事故 — 注記行 -->
+        <tr>
+          <th class="lbl" rowspan="2">違反・事故<span class="req">※</span></th>
+          <td colspan="5" class="note-black" style="padding:3px 5px">
+            直近1年以内に飲酒運転・無免許運転・重過失事故・免許停止処分2回以上の経験がありますか？
+          </td>
+        </tr>
+        <!-- 違反・事故 — ラジオ -->
+        <tr>
+          <td colspan="5" style="padding:2px 5px">
+            <label><input type="radio" name="violation">&nbsp;ある</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="violation">&nbsp;ない</label>
+          </td>
+        </tr>
+
+        <!-- 備考 -->
+        <tr>
+          <th class="lbl">備考</th>
+          <td colspan="5" style="padding:2px 4px">
+            <textarea style="width:460px;height:58px"></textarea>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="submit-bar">
+    <span>入力後、登録ボタンを押してください。</span>
+    <button class="btn">登録</button>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

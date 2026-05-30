@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイカー・社用車使用許可申請書 - TOBE2（2段セレクト自動判定）</title>
+<link rel="stylesheet" href="../../_dsmart-design-system/dsmart-base.css">
+<style>
+.section-label {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  background: #003399;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 3px;
+  font-size: 11px;
+  width: 22px;
+}
+table.form-table td.sub-lbl {
+  background: #C8C8C8;
+  border: 1px solid #808080;
+  padding: 2px 4px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* TOBE2 専用: 2段セレクト UI */
+.type-wizard {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  padding: 4px 2px;
+}
+.type-wizard .step-label {
+  font-size: 10px;
+  color: #555;
+  white-space: nowrap;
+}
+.type-wizard .arrow {
+  color: #808080;
+  font-size: 13px;
+  margin: 0 2px;
+}
+.type-result {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #FFFBE6;
+  border: 1px solid #CCA800;
+  font-size: 12px;
+  font-weight: bold;
+  color: #003399;
+  min-width: 140px;
+}
+.type-result.empty {
+  color: #999;
+  background: #f8f8f8;
+  border-color: #bbb;
+  font-weight: normal;
+}
+select:disabled {
+  background: #EEEEEE;
+  color: #999;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- サイドバー -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text"><span class="logo-d">D</span>SMART</div>
+  </div>
+  <div class="sidebar-username">青木　俊</div>
+  <div class="sidebar-buttons">
+    <a class="sidebar-btn" href="#">TOP</a>
+    <a class="sidebar-btn" href="#">HELP</a>
+    <a class="sidebar-btn" href="#">MY PORTAL</a>
+    <a class="sidebar-btn" href="#">終了</a>
+  </div>
+  <div class="sidebar-dept">東京本社情報システ 住宅事業ソ</div>
+  <div class="sidebar-date">2026年4月1日水曜日</div>
+  <div class="sidebar-menu-close">メニューを閉じる</div>
+  <div class="sidebar-links">
+    <a href="#"><span class="icon">📁</span>総務・経理</a>
+    <a href="#"><span class="icon">📁</span>ワークフロー（OutSystems）</a>
+    <a href="#" class="indent"><span class="icon">▦</span>回議状況一覧</a>
+    <a href="#" class="indent"><span class="icon">▦</span>依頼書検索</a>
+    <a href="#" class="indent"><span class="icon">📁</span>経路設定</a>
+    <a href="#"><span class="icon">📁</span>電子契約（OutSystems）</a>
+    <a href="#"><span class="icon">📁</span>経費精算</a>
+  </div>
+</div>
+
+<!-- メインコンテンツ -->
+<div class="main">
+  <div class="screen-id-bar">[ GWFL41202 ]</div>
+  <div class="screen-header">
+    <span class="section-mark">§</span> マイカー・社用車使用許可申請書
+  </div>
+
+  <div class="content-wrap">
+    <div class="form-box">
+
+      <!-- 文書ヘッダー -->
+      <table class="form-table" style="margin-top:6px">
+        <colgroup>
+          <col style="width:80px">
+          <col style="width:130px">
+          <col style="width:55px">
+          <col>
+        </colgroup>
+        <tr>
+          <th class="lbl">依頼書番号</th>
+          <td></td>
+          <th class="lbl">件名<span class="req">※</span></th>
+          <td>車両使用許可（青木　俊）の件(新規)</td>
+        </tr>
+        <tr>
+          <th class="lbl">発信日</th>
+          <td></td>
+          <th class="lbl">発信者</th>
+          <td>青木　俊</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="background:#fff;border-left:none;border-bottom:none"></td>
+          <th class="lbl">発信部署</th>
+          <td>東京本社情報システ 住宅事業ソ</td>
+        </tr>
+      </table>
+
+      <div style="height:6px"></div>
+
+      <!-- メインフォーム（rowspan=18: 許可種別が2行に展開） -->
+      <table class="form-table">
+        <colgroup>
+          <col style="width:22px">
+          <col style="width:88px">
+          <col style="width:44px">
+          <col style="width:78px">
+          <col style="width:106px">
+          <col style="width:64px">
+          <col>
+        </colgroup>
+
+        <!-- 社員番号 / 入社年月日 / 勤続年数 -->
+        <tr>
+          <td class="section-label" rowspan="19">本人の申告事項</td>
+          <th class="lbl">社員番号</th>
+          <td colspan="2" style="background:#fff;text-align:left;padding:2px 5px">00499004</td>
+          <th class="lbl">入社年月日</th>
+          <td style="padding:2px 5px">2026/04/01</td>
+          <th class="lbl">勤続年数</th>
+          <td style="padding:2px 5px">0</td>
+        </tr>
+
+        <!-- 申請区分 -->
+        <tr>
+          <th class="lbl">申請区分</th>
+          <td colspan="5" style="padding:2px 5px">新規</td>
+        </tr>
+
+        <!-- 許可種別（TOBE2: 2段セレクト自動判定 — 行1: 車種・目的 → 自動判定結果） -->
+        <tr>
+          <th class="lbl" rowspan="2"><span class="req">許可種別※</span></th>
+          <td colspan="5" style="padding:0 4px;border-bottom:none">
+            <div class="type-wizard">
+              <!-- ① 車種 -->
+              <span class="step-label">① 車種</span>
+              <select id="sel-vehicle" style="width:86px" onchange="updatePurpose(this.value)">
+                <option value="">（選択）</option>
+                <option value="maicar">マイカー</option>
+                <option value="company">社用車</option>
+                <option value="other">社員以外</option>
+              </select>
+
+              <!-- ② 目的 -->
+              <span class="step-label" style="margin-left:4px">② 目的</span>
+              <select id="sel-purpose" style="width:154px" disabled onchange="calcType()">
+                <option value="">— 車種を先に選択 —</option>
+              </select>
+
+              <!-- → 判定結果 -->
+              <span class="arrow">→</span>
+              <span id="type-result" class="type-result empty">（未選択）</span>
+            </div>
+          </td>
+        </tr>
+        <!-- 許可種別（行2: 判定された種別の最終確認セレクト） -->
+        <tr>
+          <td colspan="5" style="padding:2px 4px;background:#FAFAFA;border-top:1px dashed #CCC">
+            <span class="note-black">許可種別（確認・変更）：</span>
+            <select id="sel-type" style="width:210px;margin-left:4px">
+              <option value="">（上で車種・目的を選ぶと自動で設定されます）</option>
+              <option value="1">一種（通勤 + 業務）</option>
+              <option value="2">二種（通勤のみ）</option>
+              <option value="3">三種（業務のみ）</option>
+              <option value="4">四種（二種 + 社用車）</option>
+              <option value="5">五種（二種 + 三種）</option>
+              <option value="6">六種（社用車）</option>
+              <option value="7">七種（社員以外）</option>
+            </select>
+          </td>
+        </tr>
+
+        <!-- 申請前状況 -->
+        <tr>
+          <th class="lbl">申請前状況</th>
+          <td colspan="5" style="padding:2px 5px">許可なし</td>
+        </tr>
+
+        <!-- 申請理由 -->
+        <tr>
+          <th class="lbl">申請理由<span class="req">※</span></th>
+          <td colspan="5" style="padding:2px 4px">
+            <textarea style="width:460px;height:52px" placeholder="など、具体的に理由を記入してください。"></textarea>
+          </td>
+        </tr>
+
+        <!-- 免許証有効期限 -->
+        <tr>
+          <th class="lbl">免許証有効期限<span class="req">※</span></th>
+          <td colspan="5" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>年
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>月
+            <select style="width:34px"><option></option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>日
+          </td>
+        </tr>
+
+        <!-- 通勤方法（片道）— 現在：通勤機関 -->
+        <tr>
+          <th class="lbl" rowspan="7">通勤方法（片道）</th>
+          <td class="sub-lbl" rowspan="3">現在</td>
+          <th class="lbl">通勤機関</th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <tr>
+          <th class="lbl">経路</th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <tr>
+          <th class="lbl">所要時間</th>
+          <td colspan="3"><input type="number" style="width:48px"> 分</td>
+        </tr>
+        <tr>
+          <td class="sub-lbl" rowspan="4">車使用<br>の場合</td>
+          <th class="lbl">距離<span class="req">※</span></th>
+          <td colspan="3"><input type="number" style="width:56px"> km</td>
+        </tr>
+        <tr>
+          <th class="lbl">経路<span class="req">※</span></th>
+          <td colspan="3"><input type="text" style="width:220px"></td>
+        </tr>
+        <tr>
+          <th class="lbl">所要時間<span class="req">※</span></th>
+          <td colspan="3"><input type="number" style="width:48px"> 分</td>
+        </tr>
+        <tr>
+          <th class="lbl">使用開始日</th>
+          <td colspan="3" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option></select>年
+            <select style="width:34px"><option></option></select>月
+            <select style="width:34px"><option></option></select>日
+          </td>
+        </tr>
+
+        <!-- 安全運転講習会 -->
+        <tr>
+          <th class="lbl" rowspan="2">安全運転<br>講習会<span class="req">※</span></th>
+          <td colspan="5" class="note-black" style="padding:3px 5px">
+            直近1年以内に安全運転講習会に出席していますか？（新規の場合は、次回の講習会に出席のこと。）
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding:2px 5px">
+            <label><input type="radio" name="training">&nbsp;未受講</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="training">&nbsp;受講予定</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="training">&nbsp;受講済み</label>
+          </td>
+          <th class="lbl">参加日<span class="req">※</span></th>
+          <td colspan="2" style="padding:2px 5px">
+            <select style="width:38px"><option>令和</option><option>平成</option></select>
+            <select style="width:34px"><option></option></select>年
+            <select style="width:34px"><option></option></select>月
+            <select style="width:34px"><option></option></select>日
+          </td>
+        </tr>
+
+        <!-- 違反・事故 -->
+        <tr>
+          <th class="lbl" rowspan="2">違反・事故<span class="req">※</span></th>
+          <td colspan="5" class="note-black" style="padding:3px 5px">
+            直近1年以内に飲酒運転・無免許運転・重過失事故・免許停止処分2回以上の経験がありますか？
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" style="padding:2px 5px">
+            <label><input type="radio" name="violation">&nbsp;ある</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" name="violation">&nbsp;ない</label>
+          </td>
+        </tr>
+
+        <!-- 備考 -->
+        <tr>
+          <th class="lbl">備考</th>
+          <td colspan="5" style="padding:2px 4px">
+            <textarea style="width:460px;height:58px"></textarea>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="submit-bar">
+    <span>入力後、登録ボタンを押してください。</span>
+    <button class="btn">登録</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* 許可種別の定義 */
+var TYPE_LABELS = {
+  1: '一種（通勤 + 業務）',
+  2: '二種（通勤のみ）',
+  3: '三種（業務のみ）',
+  4: '四種（通勤 + 社用車乗り入れ）',
+  5: '五種（通勤 + 業務・別区分）',
+  6: '六種（社用車）',
+  7: '七種（社員以外）'
+};
+
+/* 車種 × 目的 → 種別コード */
+var TYPE_MAP = {
+  'maicar:commute-work':    1,
+  'maicar:commute-only':    2,
+  'maicar:work-only':       3,
+  'maicar:commute-company': 4,
+  'maicar:commute-work-alt':5,
+  'company:auto':           6,
+  'other:auto':             7
+};
+
+/* 車種セレクト変更時 — 目的セレクトを更新 */
+function updatePurpose(vehicle) {
+  var purposeSel = document.getElementById('sel-purpose');
+  purposeSel.innerHTML = '';
+
+  if (vehicle === 'maicar') {
+    purposeSel.disabled = false;
+    var opts = [
+      { v: '',                  t: '（選択してください）' },
+      { v: 'commute-only',      t: '通勤のみ（自宅 → 職場）' },
+      { v: 'work-only',         t: '業務のみ（仕事中の移動）' },
+      { v: 'commute-work',      t: '通勤 ＋ 業務' },
+      { v: 'commute-company',   t: '通勤 ＋ 社用車乗り入れ' },
+      { v: 'commute-work-alt',  t: '通勤 ＋ 業務（別許可区分）' }
+    ];
+    opts.forEach(function(o) {
+      var opt = document.createElement('option');
+      opt.value = o.v;
+      opt.text  = o.t;
+      purposeSel.appendChild(opt);
+    });
+    clearResult();
+  } else if (vehicle === 'company') {
+    purposeSel.disabled = true;
+    purposeSel.innerHTML = '<option value="auto">（社用車 — 選択不要）</option>';
+    applyType(6);
+  } else if (vehicle === 'other') {
+    purposeSel.disabled = true;
+    purposeSel.innerHTML = '<option value="auto">（社員以外 — 選択不要）</option>';
+    applyType(7);
+  } else {
+    purposeSel.disabled = true;
+    purposeSel.innerHTML = '<option value="">— 車種を先に選択 —</option>';
+    clearResult();
+  }
+}
+
+/* 目的セレクト変更時 — 種別を自動判定 */
+function calcType() {
+  var vehicle = document.getElementById('sel-vehicle').value;
+  var purpose = document.getElementById('sel-purpose').value;
+  if (!purpose) { clearResult(); return; }
+  var key  = vehicle + ':' + purpose;
+  var code = TYPE_MAP[key];
+  if (code) { applyType(code); } else { clearResult(); }
+}
+
+/* 種別をセット */
+function applyType(code) {
+  var resultEl = document.getElementById('type-result');
+  var typeSel  = document.getElementById('sel-type');
+  resultEl.textContent = TYPE_LABELS[code];
+  resultEl.className   = 'type-result';
+  typeSel.value = String(code);
+}
+
+/* 種別をクリア */
+function clearResult() {
+  var resultEl = document.getElementById('type-result');
+  var typeSel  = document.getElementById('sel-type');
+  resultEl.textContent = '（未選択）';
+  resultEl.className   = 'type-result empty';
+  typeSel.value = '';
+}
+</script>
+</body>
+</html>
